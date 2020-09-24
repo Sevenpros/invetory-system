@@ -1,0 +1,46 @@
+body{
+    margin: 0;
+    border: none;
+}
+.main-body{
+    min-height:650px;
+    background: linear-gradient(to left,rgb(59, 1, 23), rgb(194, 11, 51), rgb(58, 1, 18));
+    text-align: center;
+    color: rgb(255, 255, 255);
+}
+.background{
+    padding: 8% 0;
+}
+.title{
+    font-size: 8vw;
+}
+.desc{
+    font-size: 1.3vw;
+}
+.btn{
+    background: rgb(4, 0, 26);
+    padding: 1%;
+    width: 15%;
+    color: white;
+    border: none;
+    margin-top: 2vw;
+    font-size: 1.5vw;
+    font-weight: bolder;
+}
+.btn:hover{
+    cursor: pointer;
+    border: 1px solid rgb(4, 0, 26);
+    background: white;
+    color: rgb(4, 0, 26);
+    font-weight: bolder;
+}
+.image{
+    width: 100px;
+    height: 100px;
+    border: 2px solid rgb(7, 0, 29);
+    border-radius: 50%;
+    margin-left: 45%;
+    background: url(../assets/logo.jpg);
+    background-size: cover;
+}
+
