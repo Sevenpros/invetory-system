@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/signup.css">
+    <title>admin/home</title>
+</head>
+<body>
+    <header>
+        <div class="menu">
+            <div class="logo-div">
+                <div class="logo"></div>
+            </div>
+            
+            <div class="list-menu">
+                <a href="index.html">HOME</a>
+                <a href="#">SERVICE</a>
+                <a href="../signup.html">LOGOUT</a>
+            </div>
+        </div>
+    </header>
+    <main class="admin-body">
+        <div class="side-menu">
+            <ul>
+                <li id="customer"><a href="#">CUSTOMER</a></li>
+                <li id="merchant"><a href="#">MERCHANT</a></li>
+                <li id="supplier"><a href="#">SUPPLIER</a></li>
+                <li id="products"><a href="#">PRODUCTS</a></li>
+                <li id="purchase"><a href="#">PURCHASE</a></li>
+                <li id="order"><a href="#">ORDER</a></li>
+                <li id="payments"><a href="#">PAYMENTS</a></li>
+            </ul>
+        </div>
+        <div class="main-body">
+            <div class="customer">
+                <div class="customer-header">
+                    <div class="cust-heads view">HOME VIEW</div>
+                    <div class="cust-heads add" id="cust-add">ADD NEW CUSTOMER</div>
+                    <div class="cust-heads cust" id="cust-view">VIEW CUSTOMERS</div>
+                </div>
+                <div class="body">
+                    <div class="table-view"></div>
+                    <div class="customer-form">
+                        <h3>CUSTOMER REGISTRATION</h3>
+                        <form>
+                            <input class="input" id="fname" type="text" placeholder="First Name">
+                            <input class="input" id="lname" type="text" placeholder="Last Name">
+                            <input class="input" id="phone" type="text" placeholder="Phone Number">
+                            <input class="input" id="nation" type="text" placeholder="Nationality">
+                            <input class="input" id="city" type="text" placeholder="City">
+                            <input class="input" id="street" type="text" placeholder="Street"><br>
+                            <button class="save-btn" id="save-cust">REGISTER</button>
+                        </form>
+                    </div>
+                   
+                </div>
+                <div class="customer-footer"></div>
+            </div>
+            <div class="merchant">
+                <div class="customer-header">
+                    <div class="cust-heads view">HOME VIEW</div>
+                    <div class="cust-heads add" id="merch-add">ADD NEW MERCHANT</div>
+                    <div class="cust-heads cust" id="merch-view">VIEW MERCHANTS</div>
+                </div>
+                <div class="body">
+                    <div class="merch-table-view"></div>
+                    <div class="merchant-form">
+                        <h3>MERCHANT REGISTRATION</h3>
+                        <form>
+                            <input class="input" id="mfname" type="text" placeholder="First Name">
+                            <input class="input" id="mlname" type="text" placeholder="Last Name">
+                            <input class="input" id="mphone" type="text" placeholder="Phone Number">
+                            <input class="input" id="memail" type="text" placeholder="email"><br>
+                            <button class="save-btn" id="save-merch">REGISTER</button>
+                        </form>
+                    </div>
+                   
+                </div>
+                <div class="merchant-footer"></div>
+            </div>
+
+            <div class="supplier">
+                <div class="customer-header">
+                    <div class="cust-heads view">HOME VIEW</div>
+                    <div class="cust-heads add" id="sup-add">ADD NEW SUPPLIER</div>
+                    <div class="cust-heads cust" id="sup-view">VIEW SUPPLIERS</div>
+                </div>
+                <div class="body">
+                    <div class="sup-table-view"></div>
+                    <div class="supplier-form">
+                        <h3>SUPPLIER REGISTRATION</h3>
+                        <form>
+                            <input class="input" id="sname" type="text" placeholder="Supplier Name">
+                            <input class="input" id="sphone" type="text" placeholder="Phone Number">
+                            <input class="input" id="snation" type="text" placeholder="Nationality">
+                            <input class="input" id="scity" type="text" placeholder="City">
+                            <input class="input" id="sstreet" type="text" placeholder="Street"><br>
+                            <button class="save-btn" id="save-sup">REGISTER</button>
+                        </form>
+                    </div>
+                   
+                </div>
+                <div class="supplier-footer"></div>
+            </div>
+        </div>
+        
+    </main>
+    <footer class="bottom-footer">
+        <div class="copy-right">
+            <p>
+                Nutri-Sante is A Nutrition cabinet from Rwanda. 
+                Which aims at inspiring and helping you to live a healthy nutrition and lifestyle<br><br>
+                NUTRI-SANTE ltd &copy; 2020
+            </p>
+        </div>
+        <div class="address">
+           Address: Opposite to, KK 10 Ave 59 St, Kigali<br>
+           Working Hours:Monday to Friday: 8:00 AM-7:30 PM<br>
+           E-mail: nutrisanterwanda@gmail.com<br>
+           Phone: +250 788 729 794
+        </div>
+    </footer>
+    <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script src="../../js/index.js"></script>
+</body>
+</html>

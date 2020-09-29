@@ -146,6 +146,9 @@ input:focus{
     cursor: pointer;
     background: rgb(129, 2, 66)
 }
+.login-btn:focus{
+    outline:none;
+}
 .bottom-footer{
     height: 150px;
     background: rgb(20, 0, 6);
@@ -160,4 +163,127 @@ input:focus{
     width: 30%;
     padding: 2%;
     line-height: 2vw;
+}
+.admin-body{
+    min-height: 500px;
+    display: flex;
+}
+.side-menu{
+    width: 20%;
+    background: rgb(194, 11, 51);
+    margin: 1%;
+
+}
+.side-menu ul{
+    color: white;
+    line-height: 3vw;
+}
+.side-menu ul li{
+    color: white;
+    width: 90%;
+    list-style-type: none;
+    padding: 0 4%;
+
+}
+.side-menu ul li a{
+    color: white;
+    text-decoration: none;
+}
+.side-menu ul li:hover {
+    background: white;
+
+}
+.side-menu ul li:hover a{
+    color: rgb(194, 11, 51);
+}
+.main-body{
+    padding: 1%;
+    width: 100%;
+}
+.customer{
+    display: none;
+}
+.merchant{
+    display:none;
+}
+table th{
+    background: rgb(194, 11, 51);
+    color: white;
+    font-size: 1.5vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+table td{
+    font-size: 1.2vw;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+table tr:hover{
+    color: white;
+    background: rgb(194, 11, 51);
+}
+table, th, td {
+    border: 1px solid rgb(80, 79, 79);
+    padding: 10px;
+    border-collapse: collapse;
+
+}
+.customer-header{
+    text-align: center;
+    height: 40px;
+    width: 50%;
+    border: 1px solid rgb(194, 11, 51);
+    display: flex;
+    line-height: 40px;
+    margin-left: 15%;
+    
+}
+.cust-heads{
+    width: 30%;
+    border-right: 1px solid rgb(194, 11, 51);
+    color: rgb(194, 11, 51);
+    font-weight: bolder;
+    font-size: 1vw;
+}
+.cust-heads:hover{
+    cursor: pointer;
+    color:white;
+    background: rgb(194, 11, 51);
+}
+.cust-heads:active{
+    cursor: pointer;
+    color:white;
+    background: rgb(194, 11, 51);
+}
+.add{
+    width: 40%;
+}
+.body{
+    padding: 2%;
+}
+
+.customer-form{
+    display:none;
+}
+.body input{
+    width: 50%;
+    padding: 1.2%;
+    margin: 1%;
+    border: 1px solid rgb(70, 69, 69);
+    border-radius: 7px;
+}
+.save-btn{
+    width: 20%;
+    margin: 1%;
+    padding: 1%;
+    background: rgb(194, 11, 51);
+    color: white;
+    border: none;
+    font-weight: bolder;
+    border-radius: 8px;
+}
+.save-btn:focus{
+    outline: none;
+}
+.save-btn:hover{
+    cursor: pointer;
+    background: magenta;
 }
