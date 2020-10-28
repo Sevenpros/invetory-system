@@ -24,11 +24,40 @@ $(document).ready(function(){
               if (data == "admin") {
                  window.location.href="../ui/admin/index.html";
               }
+              else if( data == "customer"){
+                 window.location.href="../ui/admin/customer.php";
+              }
               else
               {
-                 alert("#loginError");
+                 alert("invalid username or password");
               }
            }
         })
      })
+
+
+     $("#signupBtn").click(function(event){
+        event.preventDefault();
+        var lname=$("#lname").val();
+        var fname=$("#fname").val();
+        var email=$("#uemail").val();
+        var pass=$("#upassword").val();
+        var repass=$("#repass").val();
+        var phone=$("#phone").val();
+        if(pass !== repass){
+            alert("passwords do not match");
+        }
+        else{
+            $.ajax({
+                url: "../server/login.php",
+                method: "POST",
+                data : {signUp:1,lname:lname, fname:fname, email:email, pass:pass, phone:phone},
+                success :function(data){
+                  alert(data);
+                }
+             })
+        }
+       
+     })
+
 })

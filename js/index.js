@@ -1,27 +1,58 @@
-const signup = document.querySelector('#signup');
-const login = document.querySelector('#login');
-const  signupForm = document.querySelector(".signup-form");
-const loginForm = document.querySelector('.login-form');
 const customerForm = document.querySelector(".customer-form");
 const merchantForm = document.querySelector(".merchant-form");
 const table = document.querySelector(".table");
-const customerBody = document.querySelector('.customer-body');
 const supplierForm = document.querySelector('.supplier-form');
+const productForm = document.querySelector('.product-form');
 
 document.querySelector("#customer").onclick = () => {
    document.querySelector(".customer").style.display = "block";
    document.querySelector(".merchant").style.display = "none";
    document.querySelector(".supplier").style.display = "none";
+   document.querySelector(".products").style.display = "none";
+   document.querySelector(".orders").style.display = "none";
+
+
 }
 document.querySelector("#merchant").onclick = () => {
    document.querySelector(".customer").style.display = "none";
    document.querySelector(".merchant").style.display = "block";
    document.querySelector(".supplier").style.display = "none";
+   document.querySelector(".products").style.display = "none";
+   document.querySelector(".orders").style.display = "none";
+
+
 }
 document.querySelector("#supplier").onclick = () => {
    document.querySelector(".customer").style.display = "none";
    document.querySelector(".merchant").style.display = "none";
    document.querySelector(".supplier").style.display = "block";
+   document.querySelector(".products").style.display = "none";
+   document.querySelector(".orders").style.display = "none";
+
+}
+document.querySelector("#products").onclick = () => {
+   document.querySelector(".customer").style.display = "none";
+   document.querySelector(".merchant").style.display = "none";
+   document.querySelector(".supplier").style.display = "none";
+   document.querySelector(".products").style.display = "block";
+   document.querySelector(".orders").style.display = "none";
+
+
+}
+document.querySelector("#order").onclick = () => {
+   document.querySelector(".customer").style.display = "none";
+   document.querySelector(".merchant").style.display = "none";
+   document.querySelector(".supplier").style.display = "none";
+   document.querySelector(".products").style.display = "none";
+   document.querySelector(".orders").style.display = "block";
+   $.ajax({
+      url: '../../server/action.php',
+      method: "POST",
+      data: {displayOrder:1},
+      success: function(data){
+         $(".order-table-view").html(data);
+      }
+   })
 }
 document.querySelector("#cust-add").onclick = () => {
       if(document.querySelector('.table')){
@@ -43,6 +74,12 @@ document.querySelector("#sup-add").onclick = () => {
       document.querySelector('.sup-table-view').style.display = "none";
    };
    supplierForm.style.display = "block";
+}
+document.querySelector("#pro-add").onclick = () => {
+   if(document.querySelector('.table')){
+      document.querySelector('.pro-table-view').style.display = "none";
+   };
+   productForm.style.display = "block";
 }
 
 
@@ -90,6 +127,22 @@ document.querySelector("#sup-add").onclick = () => {
             $(".sup-table-view").html(data);
             supplierForm.style.display = "none";
             document.querySelector('.sup-table-view').style.display = "block";
+
+         }
+      })
+
+   })
+
+   $("#pro-view").click(function(event){
+      event.preventDefault();
+      $.ajax({
+         url: "../../server/action.php",
+         method: "POST",
+         data: {product:1},
+         success: function(data){
+            $(".pro-table-view").html(data);
+            productForm.style.display = "none";
+            document.querySelector('.pro-table-view').style.display = "block";
 
          }
       })
@@ -151,7 +204,23 @@ document.querySelector("#sup-add").onclick = () => {
          }
       })
    })
-
+   
+   $("#save-pro").click(function(event){
+      event.preventDefault();
+      const pname = $("#pname").val();
+      const measure = $("#measure").val();
+      const category = $("#category").val();
+      const cost = $("#cost").val();
+      const price = $("#uprice").val();
+      $.ajax({
+         url: "../../server/action.php",
+         method: "POST",
+         data: {saveProduct:1,pname:pname,measure:measure,category:category,cost:cost,price:price},
+         success: function(data){
+            alert(data);
+         }
+      })
+   })
    
  })
 

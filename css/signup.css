@@ -30,7 +30,7 @@ input:focus{
 
 }
 .list-menu a:hover{
-    color: rgb(62, 142, 247);
+    color: yellow;
     text-decoration: underline;
 }
 .logo{
@@ -206,6 +206,12 @@ input:focus{
 .merchant{
     display:none;
 }
+.supplier{
+    display: none;
+}
+.products{
+    display:none;
+}
 table th{
     background: rgb(194, 11, 51);
     color: white;
@@ -267,8 +273,17 @@ table, th, td {
     width: 50%;
     padding: 1.2%;
     margin: 1%;
-    border: 1px solid rgb(70, 69, 69);
+    border: 1px solid rgb(94, 93, 93);
     border-radius: 7px;
+}
+.select{
+    width: 53%;
+    padding: 1.2%;
+    margin: 1%;
+    border-radius: 7px;
+}
+.select:focus{
+    outline: none;
 }
 .save-btn{
     width: 20%;
@@ -286,4 +301,100 @@ table, th, td {
 .save-btn:hover{
     cursor: pointer;
     background: magenta;
+}
+.pros{
+    margin: 2%;
+}
+.pro-display{
+    min-height: 400px;
+}
+.product-row{
+    display: flex;
+    margin:0 2%;
+}
+.pro-element{
+    width: 140px;
+    height: 170px;
+    border: 1px solid rgb(194, 11, 51);
+    margin-left: 5px;
+
+}
+.pro-desc{
+    height: 30px;
+    border-bottom: 1px solid rgb(194, 11, 51);
+    text-align:center;
+    color: rgb(194, 11, 51);
+    font-weight: bolder;
+    padding: 2%;
+}
+.pro-img{
+    height:110px;
+    size: cover;
+    padding: 2px;
+}
+.pro-img img{
+    height:105px;
+    width: 135px;
+}
+.pro-order{
+    height: 30px;
+    border-top: 1px solid rgb(194, 11, 51);
+    text-align: center;
+    color: rgb(194, 11, 51);
+    font-weight: bolder;
+    padding: 2%;
+}
+.pro-order:hover{
+    color: white;
+    background: rgb(194, 11, 51);
+    cursor: pointer;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 5%; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid rgba(0, 85, 124, 0.452);
+    width: 50%;
+    margin-bottom:5%;
+    border-radius:10px;
+
+    
+  }
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .modal-form input{
+    width: 75%;
+    padding: 2%;
+    margin: 2%;
+    border: 1px solid rgb(94, 93, 93);
+    border-radius: 7px;
+}
+.labels{
+    margin-left: 20px;
 }

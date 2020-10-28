@@ -1,0 +1,68 @@
+
+
+$(document).ready(function(){
+    const proDisplay = () => {
+        $.ajax({
+            url: "../../server/action.php",
+            method: "POST",
+            data: {displayProduct:1},
+            success: function(data){
+                $(".pro-display").html(data);
+            }
+        })
+    }
+    proDisplay();
+    const orderModal = document.querySelector('#orderModal');
+const span = document.querySelector('.close');
+const orderBtn = document.querySelectorAll('.pro-order');
+
+
+
+$("body").delegate(".pro-order","click",function(event){
+    event.preventDefault();
+    const proprice = $(this).attr("proprice");
+    const proname = $(this).attr("proname");
+    const pid = $(this).attr("pid");
+    $("#price").val(proprice);
+    $("#proname").val(proname);
+    $("#pid").val(pid);
+    const uid = $("#uid").val();
+    orderModal.style.display = 'block';
+
+})
+  span.onclick = () => {
+    orderModal.style.display = 'none';
+  };
+  window.onclick = (event) => {
+    if (event.target == orderModal) {
+      orderModal.style.display = 'none';
+    }
+  };
+
+  $("#quantity").on('input', function(){
+      var price = $("#price").val();
+      var quantity = $("#quantity").val();
+      const total = price * quantity;
+      $("#total").val(total);
+  })
+
+  $("#confirm-order").click(function(event){
+    event.preventDefault();
+    const cid = $("#uid").val();
+    const proId = $("#pid").val();
+    const uprice = $("#price").val();
+    const total = $("#total").val();
+    const quantity = $("#quantity").val();
+    $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {placeOrder:1, cid:cid,proId:proId,uprice:uprice,total:total,quantity:quantity},
+      success: function(data){
+        alert(data);
+      }
+    })
+
+
+  })
+})
+
