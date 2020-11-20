@@ -4,6 +4,7 @@
       $query = "SELECT * FROM customer";
       $run_query = mysqli_query($con, $query);
       echo "
+      <div class='table'>
          <table class='table'>
          <tr>
           <th>Customer Id</th>
@@ -38,13 +39,14 @@
 
 			     ";
       }
-      echo "</table>";
+      echo "</table></div>";
   }
 
   if(isset($_POST["merchant"])){
     $query = "SELECT * FROM merchant";
     $run_query = mysqli_query($con, $query);
     echo "
+    <div class='table'>
        <table class='table'>
        <tr>
         <th>Merchant Id</th>
@@ -74,7 +76,7 @@
 
          ";
     }
-    echo "</table>";
+    echo "</table></div>";
 }
 
 if(isset($_POST["displayOrder"])){
@@ -82,6 +84,7 @@ if(isset($_POST["displayOrder"])){
   $run_query = mysqli_query($con, $query);
   echo "
   <h3>ORDERS INFORMATION</h3><br>
+  <div class='table'>
      <table class='table'>
      <tr>
       <th>Customer</th>
@@ -91,7 +94,7 @@ if(isset($_POST["displayOrder"])){
       <th>Total</th>
       <th>Date</th>
       <th>Time</th>
-      
+      <th>Action</th>
 
      </tr>
 ";
@@ -114,17 +117,19 @@ if(isset($_POST["displayOrder"])){
                 <td>$total</td>
                 <td>$date</td>
                 <td>$time</td>
+                <td><a href='#'>Confirm</a></td>
               </tr>
 
        ";
   }
-  echo "</table>";
+  echo "</table> </div>";
 }
 
 if(isset($_POST["supplier"])){
   $query = "SELECT * FROM supplier";
   $run_query = mysqli_query($con, $query);
   echo "
+  <div class='table>
      <table class='table'>
      <tr>
       <th>Supplier Id</th>
@@ -156,13 +161,56 @@ if(isset($_POST["supplier"])){
 
        ";
   }
-  echo "</table>";
+  echo "</table></div>";
 }
+
+if(isset($_POST["fillProduct"])){
+  echo "
+        <option readonly>-- Choose Product --</option>
+        
+      ";
+  $query = "SELECT * FROM products";
+  $run_query = mysqli_query($con, $query);
+  if($run_query){
+    while($rows = mysqli_fetch_array($run_query)){
+      $name = $rows['name'];
+      $pid = $rows['product_id'];
+      echo "
+        <option value='$pid'>$name</option>
+
+      ";
+    }
+  }
+  
+}
+
+
+if(isset($_POST["fillSupplier"])){
+  echo "
+        <option readonly>-- Choose Supplier --</option>
+        
+      ";
+  $query = "SELECT * FROM supplier";
+  $run_query = mysqli_query($con, $query);
+  if($run_query){
+    while($rows = mysqli_fetch_array($run_query)){
+      $name = $rows['name'];
+      $sid = $rows['supplier_id'];
+      echo "
+        <option  value='$sid'>$name</option>
+
+      ";
+    }
+  }
+  
+}
+
 
 if(isset($_POST["product"])){
   $query = "SELECT * FROM products";
   $run_query = mysqli_query($con, $query);
   echo "
+  <div class='table'>
      <table class='table'>
      <tr>
       <th>Product Id</th>
@@ -211,7 +259,7 @@ if(isset($_POST["product"])){
       }
      
   }
-  echo "</table>";
+  echo "</table></div>";
 }
 
 if(isset($_POST["displayProduct"])){
@@ -283,6 +331,70 @@ if(isset($_POST['saveCustomer'])){
 
 }
 
+
+if(isset($_POST['viewPurchase'])){
+  echo "
+     <h2> PURCHASING DETAILS</h2>
+     <br>
+     <div class='pur-table'>
+     <table>
+     <tr>
+     <th>product</th>
+     <th>Supplier</th>
+     <th>quantity</th>
+     <th>Unitary price</th>
+     <th>Total</th>
+     <th>Action</th>
+     </tr>
+  ";
+
+  $query = "SELECT *, products.name, supplier.name AS sname FROM purch_order_details JOIN products ON purch_order_details.p_o_number = products.product_id JOIN supplier ON purch_order_details.supplier_id = supplier.supplier_id WHERE  purch_order_details.status = 'ordered'";
+  $run_query = mysqli_query($con, $query);
+    if($run_query){
+      while($rows = mysqli_fetch_array($run_query)){
+           $pname = $rows['name'];
+           $sname = $rows['sname'];
+           $quantity = $rows['quantity'];
+           $price = $rows['unitary_price'];
+           $total = $rows['total'];
+           echo "
+           <tr>
+            <td>$pname</td>
+            <td>$sname</td>
+            <td>$quantity</td>
+            <td>$price</td>
+            <td>$total</td>
+            <td><a href='#'>Remove</a></td>
+            </tr>
+           
+           
+           ";
+
+      }
+      echo " </table></div>";
+    }
+  
+}
+
+
+if(isset($_POST['addPurchase'])){
+  $product = $_POST['pur_pro'];
+  $supplier = $_POST['supp'];
+  $price = $_POST['price'];
+  $quantity = $_POST['pur_q'];  
+  $total = $_POST['total'];
+  $query = "INSERT INTO `purch_order_details` (`purch_ord_det_id`, `quantity`, `total`, `unitary_price`, `p_o_number`, `supplier_id`, `status`) VALUES (NULL, '$quantity', '$total', '$price', '$product', '$supplier', 'ordered')"; 
+  $run_query = mysqli_query($con, $query);
+  if(!$run_query){
+    echo "Some error occurred:".mysqli_error($con);
+  }
+  else{
+    echo " purchase added";
+  }
+
+}
+
+
 if(isset($_POST['saveProduct'])){
   $pname = $_POST['pname'];
   $measure = $_POST['measure'];
@@ -327,8 +439,34 @@ if(isset($_POST['saveSupplier'])){
     $total = $_POST['total'];
     $ntime=date("h:i:sa");
     $tdate=date("y-m-d");
-    
+    $mes = "";
+    $fquery = "SELECT * FROM products WHERE product_id = '$proId'";
+    $run_fquery = mysqli_query($con, $fquery);
+    if($run_fquery){
+      $frow = mysqli_fetch_array($run_fquery);
+      $pro_quantity = $frow['measures'];
+      $pro_name = $frow['name'];
+      $cat = $frow['category'];
+      if($cat == 'fluid'){
+        $mes = 'litres';
+      }
+      else $mes = 'Kilos';
+    }
+    else{
+      echo mysqli_error($con);
+    }
+    if($quantity > $pro_quantity){
+      echo "The order could not processed only ".$pro_quantity." $mes of ".$pro_name." are remaining";
+      exit;
+    }
+    $updated = $pro_quantity - $quantity;
     $query = "INSERT INTO `cust_ordering` (`cust_order_id`, `date`, `time`, `quantity`, `u_price`, `total`, `customer_id`, `product_id`) VALUES (NULL, '$tdate', '$ntime', '$quantity', '$uprice', '$total', '$cid', '$proId')";
+    $squery = "UPDATE `products` SET `measures` = '$updated' WHERE `products`.`product_id` = $proId";
+    $run_squery = mysqli_query($con, $squery);
+    if(!$run_squery){
+      echo mysqli_error($con);
+      exit;
+    }
     $run_query = mysqli_query($con, $query);
     if($run_query){
       echo 'order received';

@@ -3,6 +3,8 @@ const merchantForm = document.querySelector(".merchant-form");
 const table = document.querySelector(".table");
 const supplierForm = document.querySelector('.supplier-form');
 const productForm = document.querySelector('.product-form');
+const purchaseForm = document.querySelector('.purchase-form');
+
 
 document.querySelector("#customer").onclick = () => {
    document.querySelector(".customer").style.display = "block";
@@ -19,6 +21,7 @@ document.querySelector("#merchant").onclick = () => {
    document.querySelector(".supplier").style.display = "none";
    document.querySelector(".products").style.display = "none";
    document.querySelector(".orders").style.display = "none";
+   document.querySelector(".purchase").style.display = "none";
 
 
 }
@@ -28,22 +31,74 @@ document.querySelector("#supplier").onclick = () => {
    document.querySelector(".supplier").style.display = "block";
    document.querySelector(".products").style.display = "none";
    document.querySelector(".orders").style.display = "none";
+   document.querySelector(".purchase").style.display = "none";
 
 }
+
+
 document.querySelector("#products").onclick = () => {
    document.querySelector(".customer").style.display = "none";
    document.querySelector(".merchant").style.display = "none";
    document.querySelector(".supplier").style.display = "none";
    document.querySelector(".products").style.display = "block";
    document.querySelector(".orders").style.display = "none";
-
+   document.querySelector(".purchase").style.display = "none";
 
 }
+
+const fillProduct  = () => {
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {fillProduct:1},
+      success: function(data){
+         $("#pur_product").html(data);
+      }
+   })
+}
+
+const fillSupplier  = () => {
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {fillSupplier:1},
+      success: function(data){
+         $("#pur_supplier").html(data);
+      }
+   })
+}
+
+
+const viewPurchase = () => {
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {viewPurchase:1},
+      success: (data) => {
+         $(".pur-details").html(data);
+      }
+   })
+}
+
+
+document.querySelector("#purchase").onclick = () => {
+   document.querySelector(".customer").style.display = "none";
+   document.querySelector(".merchant").style.display = "none";
+   document.querySelector(".supplier").style.display = "none";
+   document.querySelector(".products").style.display = "none";
+   document.querySelector(".orders").style.display = "none";
+   document.querySelector(".purchase").style.display = "block";
+   fillProduct();
+   fillSupplier();
+   viewPurchase();
+}
+
 document.querySelector("#order").onclick = () => {
    document.querySelector(".customer").style.display = "none";
    document.querySelector(".merchant").style.display = "none";
    document.querySelector(".supplier").style.display = "none";
    document.querySelector(".products").style.display = "none";
+   document.querySelector(".purchase").style.display = "none";
    document.querySelector(".orders").style.display = "block";
    $.ajax({
       url: '../../server/action.php',
@@ -54,6 +109,17 @@ document.querySelector("#order").onclick = () => {
       }
    })
 }
+const orders = () => {
+   $.ajax({
+      url: '../../server/action.php',
+      method: "POST",
+      data: {displayOrder:1},
+      success: function(data){
+         $(".orders").html(data);
+      }
+   })
+}
+orders();
 document.querySelector("#cust-add").onclick = () => {
       if(document.querySelector('.table')){
          document.querySelector('.table').style.display = "none";
@@ -82,6 +148,12 @@ document.querySelector("#pro-add").onclick = () => {
    productForm.style.display = "block";
 }
 
+document.querySelector("#pur-add").onclick = () => {
+   if(document.querySelector('.table')){
+      document.querySelector('.pur-table-view').style.display = "none";
+   };
+   purchaseForm.style.display = "block";
+}
 
  $(document).ready(function(){
     
@@ -168,6 +240,28 @@ document.querySelector("#pro-add").onclick = () => {
           }
        })
     })
+  
+
+   
+
+    $("#save-pur").click(function(event){
+      event.preventDefault();
+      const pur_pro = $("#pur_product").val();
+      const pur_q = $("#pur_quantity").val();
+      const price = $("#pur_price").val();
+      const supp = $("#pur_supplier").val();
+      const total = price * pur_q;
+
+      $.ajax({
+         url: "../../server/action.php",
+         method: "POST",
+         data: {addPurchase:1,pur_pro:pur_pro,pur_q:pur_q,price:price,supp:supp,total: total},
+         success: function(data){
+            alert(data);
+            viewPurchase();
+         }
+      })
+   })
 
 
     $("#save-sup").click(function(event){
