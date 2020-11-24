@@ -22,7 +22,7 @@ $(document).ready(function(){
            data : {loggingIn:1,email:email,pass:pass},
            success :function(data){
               if (data == "admin") {
-                 window.location.href="../ui/admin/index.html";
+                 window.location.href="../ui/admin/index.php";
               }
               else if( data == "customer"){
                  window.location.href="../ui/admin/customer.php";

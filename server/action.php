@@ -80,7 +80,7 @@
 }
 
 if(isset($_POST["displayOrder"])){
-  $query = "SELECT users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id";
+  $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id";
   $run_query = mysqli_query($con, $query);
   echo "
   <h3>ORDERS INFORMATION</h3><br>
@@ -107,7 +107,7 @@ if(isset($_POST["displayOrder"])){
       $quantity = $rows['quantity'];
       $total = $rows['total'];
       $uprice = $rows['u_price'];
-
+      $oid = $rows['cust_order_id'];
       echo "
               <tr>
                 <td>$fname $lname</td>
@@ -117,7 +117,7 @@ if(isset($_POST["displayOrder"])){
                 <td>$total</td>
                 <td>$date</td>
                 <td>$time</td>
-                <td><a href='#'>Confirm</a></td>
+                <td><a href='#' id='conf_order' oid='$oid' pname='$pname' name='$lname $fname' quantity='$quantity' total='$total'>Confirm</a></td>
               </tr>
 
        ";
@@ -129,7 +129,8 @@ if(isset($_POST["supplier"])){
   $query = "SELECT * FROM supplier";
   $run_query = mysqli_query($con, $query);
   echo "
-  <div class='table>
+  <h2> SUPPLIER INFORMATION </2>
+  <div class='table'>
      <table class='table'>
      <tr>
       <th>Supplier Id</th>
@@ -185,6 +186,58 @@ if(isset($_POST["fillProduct"])){
 }
 
 
+if(isset($_POST['salesPayments'])){
+  $total = 0;
+  $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id";
+  $run_query = mysqli_query($con, $query);
+
+  if($run_query){
+     echo "
+  <h2> SALES PAYMENT </2>
+  <div class='table'>
+     <table class='table'>
+     <tr>
+      <th>Customer</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Amount</th>
+
+
+     </tr>
+";
+while($rows = mysqli_fetch_array($run_query)){
+  $name = $rows['name'];
+  $fname = $rows['fname'];
+  $lname = $rows['lname'];
+  $quantity = $rows['quantity'];
+  $amount = $rows['total'];
+  $date = $rows['date'];
+  $time = $rows['time'];
+  $total = $total + $amount;
+
+  echo "
+    <tr>
+       <td>$fname $lname</td>
+       <td>$name</td>
+       <td>$quantity</td>
+       <td>$date</td>
+       <td>$time</td>
+       <td>$amount</td>
+    </tr>
+  
+  ";
+}
+echo "</table> </div> 
+ 
+ <h2> TOTAL: $total FRW</h2>
+";
+  }
+}
+
+
+
 if(isset($_POST["fillSupplier"])){
   echo "
         <option readonly>-- Choose Supplier --</option>
@@ -217,7 +270,7 @@ if(isset($_POST["product"])){
       <th>Product Name</th>
       <th>Measures</th>
       <th>Category</th>
-      <th>Cost</th>
+      <th>Unitary Cost</th>
       <th>Unitary Price</th>
 
      </tr>
@@ -262,6 +315,31 @@ if(isset($_POST["product"])){
   echo "</table></div>";
 }
 
+if(isset($_POST['storeControl'])){
+  echo "<h2> STORE CONTROL INFORMATION </h2><br>";
+  $query = "SELECT * FROM products";
+  $run_query = mysqli_query($con, $query);
+  if($run_query){
+  while($rows = mysqli_fetch_array($run_query)){
+    $pname = $rows['name'];
+    $quantity = $rows['measures'];
+    $max = $rows['maximum'];
+    if($max > 0){
+    $pro = $quantity/$max;
+    $perc = $pro * 100;
+    }
+    echo "
+    
+    <div class='progress'>
+    <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar'
+      aria-valuenow='$perc' aria-valuemin='0' aria-valuemax='100' style='width:$perc%'>
+          $perc % Complete (success)
+      </div>
+  </div>
+    ";
+}
+  }
+}
 if(isset($_POST["displayProduct"])){
   $query = "SELECT * FROM products";
   $run_query = mysqli_query($con, $query);
@@ -271,6 +349,8 @@ if(isset($_POST["displayProduct"])){
   
 
 ";
+
+
   while($rows = mysqli_fetch_array($run_query)){
       $name = $rows['name'];
       $pro = $rows['product_id'];
@@ -278,13 +358,15 @@ if(isset($_POST["displayProduct"])){
       $category = $rows['category'];
       $cost = $rows['cost'];
       $price = $rows['u_price'];
+      $price = $rows['u_price'];
+      $image = $rows['image'];
       if($category == 'fluid'){
         echo "
         
         <div class='pro-element'>
             <div class='pro-desc'>$name -$price fr/Ltr</div>
             <div class='pro-img'>
-                <img src='../../assets/honey.jpg'>
+                <img src='../../assets/$image'>
             </div>
             <div class='pro-order' pid= '$pro' proprice='$price' proname='$name'>ORDER NOW</div>
         </div>
@@ -298,7 +380,7 @@ if(isset($_POST["displayProduct"])){
         <div class='pro-element'>
             <div class='pro-desc' >$name -$price fr/Kg</div>
             <div class='pro-img'>
-                <img src='../../assets/sugar2.jpg'>
+                <img src='../../assets/$image'>
             </div>
             <div class='pro-order' id='ordering' pid= '$pro' proprice='$price' proname='$name' >ORDER NOW</div>
         </div>
@@ -333,47 +415,200 @@ if(isset($_POST['saveCustomer'])){
 
 
 if(isset($_POST['viewPurchase'])){
-  echo "
+ 
+
+  $query = "SELECT *, products.name, supplier.name AS sname FROM purch_order_details JOIN products ON purch_order_details.p_o_number = products.product_id JOIN supplier ON purch_order_details.supplier_id = supplier.supplier_id WHERE  purch_order_details.status = 'ordered'";
+  $run_query = mysqli_query($con, $query);
+  if($count = mysqli_num_rows($run_query) > 0){
+    echo "
      <h2> PURCHASING DETAILS</h2>
-     <br>
      <div class='pur-table'>
      <table>
      <tr>
      <th>product</th>
-     <th>Supplier</th>
      <th>quantity</th>
-     <th>Unitary price</th>
+     <th>U price</th>
      <th>Total</th>
+     <th>Supplier    Name</th>
      <th>Action</th>
      </tr>
   ";
+  if($run_query){
+    while($rows = mysqli_fetch_array($run_query)){
+         $pname = $rows['name'];
+         $sname = $rows['sname'];
+         $quantity = $rows['quantity'];
+         $price = $rows['unitary_price'];
+         $total = $rows['total'];
+         $purId = $rows['purch_ord_det_id'];
+         echo "
+         <tr>
+          <td>$pname</td>
+          <td>$quantity</td>
+          <td>$price</td>
+          <td>$total</td>
+          <td>$sname</td>
+          <td><a href='#' id='remove_pur' name'$pname'  puid='$purId'>Remove</a></td>
+          </tr>
+         
+         
+         ";
 
-  $query = "SELECT *, products.name, supplier.name AS sname FROM purch_order_details JOIN products ON purch_order_details.p_o_number = products.product_id JOIN supplier ON purch_order_details.supplier_id = supplier.supplier_id WHERE  purch_order_details.status = 'ordered'";
-  $run_query = mysqli_query($con, $query);
+    }
+    echo " </table></div><br>
+    <button class='save-btn' id='confirm_pur'>Confirm Order</button>
+
+    ";
+  }
+
+}
+  }
+   
+
+  if(isset($_POST['Purchase'])){
+ 
+
+    $query = "SELECT *, products.name, supplier.name AS sname, fname, lname FROM purch_order_details JOIN products ON purch_order_details.p_o_number = products.product_id JOIN supplier ON purch_order_details.supplier_id = supplier.supplier_id JOIN users ON purch_order_details.merchant_id = users.user_id WHERE  purch_order_details.status = 'confirmed'";
+    $run_query = mysqli_query($con, $query);
+    if($count = mysqli_num_rows($run_query) > 0){
+      echo "
+       <h2> PURCHASING INFORMATION</h2>
+       <div class='table'>
+       <table>
+       <tr>
+       <th>product</th>
+       <th>quantity</th>
+       <th>U price</th>
+       <th>Total</th>
+       <th>Supplier    Name</th>
+       <th> Date</th>
+       <th> Time</th>
+       <th> Merchant</th>
+       </tr>
+    ";
     if($run_query){
       while($rows = mysqli_fetch_array($run_query)){
            $pname = $rows['name'];
            $sname = $rows['sname'];
+           $fname = $rows['fname'];
+           $lname = $rows['lname'];
+           $tdate = $rows['date'];
+           $ntime = $rows['time'];
            $quantity = $rows['quantity'];
            $price = $rows['unitary_price'];
            $total = $rows['total'];
+           $purId = $rows['purch_ord_det_id'];
            echo "
            <tr>
             <td>$pname</td>
-            <td>$sname</td>
             <td>$quantity</td>
             <td>$price</td>
             <td>$total</td>
-            <td><a href='#'>Remove</a></td>
+            <td>$sname</td>
+            <td>$tdate</td>
+            <td>$ntime</td>
+            <td>$fname $lname</td>
             </tr>
            
            
            ";
-
+  
       }
-      echo " </table></div>";
+      echo " </table></div><br>
+  
+      ";
     }
   
+  }
+    }
+
+    if(isset($_POST['purchasePayments'])){
+ 
+     $tot = 0;
+      $query = "SELECT *, products.name, supplier.name AS sname, fname, lname FROM purch_order_details JOIN products ON purch_order_details.p_o_number = products.product_id JOIN supplier ON purch_order_details.supplier_id = supplier.supplier_id JOIN users ON purch_order_details.merchant_id = users.user_id WHERE  purch_order_details.status = 'confirmed'";
+      $run_query = mysqli_query($con, $query);
+      if($count = mysqli_num_rows($run_query) > 0){
+        echo "
+         <h2> PURCHASING PAYMENTS</h2>
+         <div class='table'>
+         <table class='table'>
+         <tr>
+         <th>product</th>
+         <th>quantity</th>
+         <th>Total</th>
+         <th>Supplier    Name</th>
+         <th> Date</th>
+         <th> Time</th>
+         <th> Merchant</th>
+         </tr>
+      ";
+      if($run_query){
+        while($rows = mysqli_fetch_array($run_query)){
+             $pname = $rows['name'];
+             $sname = $rows['sname'];
+             $fname = $rows['fname'];
+             $lname = $rows['lname'];
+             $tdate = $rows['date'];
+             $ntime = $rows['time'];
+             $quantity = $rows['quantity'];
+             $price = $rows['unitary_price'];
+             $total = $rows['total'];
+             $purId = $rows['purch_ord_det_id'];
+             $tot = $tot + $total;
+             echo "
+             <tr>
+              <td>$pname</td>
+              <td>$quantity</td>
+              <td>$total</td>
+              <td>$sname</td>
+              <td>$tdate</td>
+              <td>$ntime</td>
+              <td>$fname $lname</td>
+              </tr>
+             
+             
+             ";
+    
+        }
+        echo " </table></div><br>
+        <h2>TOTAL: $tot FRW</h2>
+    
+        ";
+      }
+    
+    }
+      }
+
+
+
+if(isset($_POST['removePurchase'])){
+  $puid = $_POST['puid'];
+  $query = "DELETE FROM purch_order_details WHERE purch_ord_det_id = '$puid'";
+  $run_query = mysqli_query($con, $query);
+  if($run_query){
+    echo "Purchase Successfuly removed";
+  }
+  else{
+    echo mysqli_error($con);
+  }
+}
+
+
+if(isset($_POST['confirmPurchase'])){
+  $query = "UPDATE `purch_order_details` SET `status` = 'confirmed' WHERE status ='ordered'";
+ // $squery = "UPDATE `products` SET `measures` = '$updated' WHERE `products`.`product_id` = $proId";
+ //   $run_squery = mysqli_query($con, $squery);
+    //if(!$run_squery){
+   //   echo mysqli_error($con);
+  //    exit;
+ //   }
+  $run_query = mysqli_query($con, $query);
+  if($run_query){
+    echo "Purchase Successfuly confirmed";
+  }
+  else{
+    echo mysqli_error($con);
+  }
 }
 
 
@@ -383,7 +618,10 @@ if(isset($_POST['addPurchase'])){
   $price = $_POST['price'];
   $quantity = $_POST['pur_q'];  
   $total = $_POST['total'];
-  $query = "INSERT INTO `purch_order_details` (`purch_ord_det_id`, `quantity`, `total`, `unitary_price`, `p_o_number`, `supplier_id`, `status`) VALUES (NULL, '$quantity', '$total', '$price', '$product', '$supplier', 'ordered')"; 
+  $mid = $_POST['mid'];
+  $ntime=date("h:i:sa");
+  $tdate=date("y-m-d");
+  $query = "INSERT INTO `purch_order_details` (`purch_ord_det_id`, `quantity`, `total`, `unitary_price`, `p_o_number`, `supplier_id`,`date`,`time`,`merchant_id`, `status`) VALUES (NULL, '$quantity', '$total', '$price', '$product', '$supplier', '$tdate', '$ntime', '$mid', 'ordered')"; 
   $run_query = mysqli_query($con, $query);
   if(!$run_query){
     echo "Some error occurred:".mysqli_error($con);
@@ -401,7 +639,9 @@ if(isset($_POST['saveProduct'])){
   $category = $_POST['category'];
   $cost = $_POST['cost'];  
   $price = $_POST['price'];
-  $query = "INSERT INTO `products` (`product_id`, `name`, `measures`, `category`, `cost`, `u_price`) VALUES (NULL, '$pname', '$measure', '$category', '$cost', '$price')";   
+  $max = $_POST['max'];  
+  $photo = $_POST['photo'];
+  $query = "INSERT INTO `products` (`product_id`, `name`, `measures`,`maximum`, `category`, `cost`, `u_price`, `image`) VALUES (NULL, '$pname', '$measure','$max', '$category', '$cost', '$price', '$photo')";   
    $run_query = mysqli_query($con, $query);
   if(!$run_query){
     echo "Some error occurred:".mysqli_error($con);
