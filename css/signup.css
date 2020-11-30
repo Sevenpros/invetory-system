@@ -17,6 +17,7 @@ input:focus{
 .log-div{
     width: 30%;
 }
+
 .list-menu{
     width: 90%;
     text-align: right;
@@ -312,6 +313,14 @@ input:focus{
     border: 1px solid rgb(94, 93, 93);
     border-radius: 7px;
 }
+.search input{
+    width: 20%;
+    padding: 1%;
+    margin: 1%;
+    border: 1px solid rgb(94, 93, 93);
+    border-radius: 7px;
+}
+
 .select{
     width: 53%;
     padding: 1.2%;

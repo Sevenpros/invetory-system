@@ -307,11 +307,199 @@ xhr.send(body);
       const total = $(this).attr("total");
 
       const number = 250782718860;
-      const sms = "Dear "+cname+" we are pleased to inform you that your order of "+quantity+" "+pname+" have been confirmed. amount of "+total+" Frw is to be paid on product delivery";
-      smsNotification(number,sms);
+      $.ajax({
+         url: "../../server/action.php",
+         method: "POST",
+         data: {confirmOrder:1,oid:oid},
+         success: data => {
+              alert(data)
+              const sms = "Dear "+cname+" we are pleased to inform you that your order of "+quantity+" "+pname+" have been confirmed. amount of "+total+" Frw is to be paid on product delivery";
+              smsNotification(number,sms);
+              orders();
+     
+         }
+      })
    })
 
+  $("body").delegate("#searchCustomer","input", function(event){
+     event.preventDefault();
+     const customer = $("#searchCustomer").val();
+     $.ajax({
+        url: "../../server/action.php",
+        method: "POST",
+        data: {searchCustomer:1, cust:customer},
+        success: data => {
+         $(".customerView").html(data);
+      }
+     })
+  })
 
+  $("body").delegate("#searchProduct","input", function(event){
+   event.preventDefault();
+   const pro = $("#searchProduct").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {searchProduct:1, pro:pro},
+      success: data => {
+       $(".productView").html(data);
+    }
+   })
+})
+$("body").delegate("#orderProduct","input", function(event){
+   event.preventDefault();
+   const oPro = $("#orderProduct").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {orderProduct:1, oPro:oPro},
+      success: data => {
+       $(".orderView").html(data);
+    }
+   })
+})
+$("body").delegate("#orderCustomer","input", function(event){
+   event.preventDefault();
+   const oCust = $("#orderCustomer").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {orderCustomer:1, oCust:oCust},
+      success: data => {
+       $(".orderView").html(data);
+    }
+   })
+})
+
+$("body").delegate("#orderDate","input", function(event){
+   event.preventDefault();
+   const oDate = $("#orderDate").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {orderDate:1, oDate:oDate},
+      success: data => {
+       $(".orderView").html(data);
+    }
+   })
+})
+
+
+$("body").delegate("#purchaseProduct","input", function(event){
+   event.preventDefault();
+   const purPro = $("#purchaseProduct").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {purchaseProduct:1, purpro:purPro},
+      success: data => {
+       $(".purchaseView").html(data);
+    }
+   })
+})
+
+$("body").delegate("#purchaseSupplier","input", function(event){
+   event.preventDefault();
+   const pursup = $("#purchaseSupplier").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {purchaseSupplier:1, pursup:pursup},
+      success: data => {
+       $(".purchaseView").html(data);
+    }
+   })
+})
+$("body").delegate("#purchaseMerchant","input", function(event){
+   event.preventDefault();
+   const purmer = $("#purchaseMerchant").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {purchaseMerchant:1, purmer:purmer},
+      success: data => {
+       $(".purchaseView").html(data);
+    }
+   })
+})
+
+$("body").delegate("#salesProduct","input", function(event){
+   event.preventDefault();
+   const salepro = $("#salesProduct").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {salesProduct:1, salepro:salepro},
+      success: data => {
+       $(".salesView").html(data);
+    }
+   })
+})
+
+$("body").delegate("#salesDate","input", function(event){
+   event.preventDefault();
+   const saled = $("#salesDate").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {salesDate:1, saled:saled},
+      success: data => {
+       $(".salesView").html(data);
+    }
+   })
+})
+
+
+
+$("body").delegate("#print-order","click",function(event){
+   event.preventDefault();
+   var report=$(".orderView").html();
+    if (confirm("Do you want to print?"))
+      {
+         
+            var values = report;
+         var printing = window.open('', '', 'left=0,top=0,width=550,height=400,toolbar=0,scrollbars=0,sta­?tus=0');
+            printing.document.write(values);
+            printing.document.close();
+            printing.focus();
+            printing.print();
+            printing.close();
+      }
+})
+
+
+$("body").delegate("#print-purchase","click",function(event){
+   event.preventDefault();
+   var report=$(".purchaseView").html();
+    if (confirm("Do you want to print?"))
+      {
+         
+            var values = report;
+         var printing = window.open('', '', 'left=0,top=0,width=550,height=400,toolbar=0,scrollbars=0,sta­?tus=0');
+            printing.document.write(values);
+            printing.document.close();
+            printing.focus();
+            printing.print();
+            printing.close();
+      }
+})
+
+
+$("body").delegate("#print-salesPay","click",function(event){
+   event.preventDefault();
+   var report=$(".salesView").html();
+    if (confirm("Do you want to print?"))
+      {
+         
+            var values = report;
+         var printing = window.open('', '', 'left=0,top=0,width=550,height=400,toolbar=0,scrollbars=0,sta­?tus=0');
+            printing.document.write(values);
+            printing.document.close();
+            printing.focus();
+            printing.print();
+            printing.close();
+      }
+})
    $("#sup-view").click(function(event){
       event.preventDefault();
       $.ajax({
