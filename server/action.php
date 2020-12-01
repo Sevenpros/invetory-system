@@ -1158,6 +1158,12 @@ if(isset($_POST['viewPurchase'])){
       $run_query = mysqli_query($con, $query);
       if($count = mysqli_num_rows($run_query) > 0){
         echo "
+        <div class=' search'>
+        <input type='text' class='search' placeholder='Search payment by Product' id='purProduct'>
+        <input type='date' class='search' placeholder='Search payment by Date' id='purDate'>
+        <button  class='save-btn' id='print-purchasePay'>PRINT</button>
+        <div class='purView'>
+   
          <h2> PURCHASING PAYMENTS</h2>
          <div class='table'>
          <table class='table'>
@@ -1207,6 +1213,128 @@ if(isset($_POST['viewPurchase'])){
     
     }
       }
+    
+
+      if(isset($_POST['purProduct'])){
+        $purpay = $_POST['purpay'];
+        $tot = 0;
+         $query = "SELECT *, products.name, supplier.name AS sname, fname, lname FROM purch_order_details JOIN products ON purch_order_details.p_o_number = products.product_id JOIN supplier ON purch_order_details.supplier_id = supplier.supplier_id JOIN users ON purch_order_details.merchant_id = users.user_id WHERE  purch_order_details.status = 'confirmed' AND products.name LIKE '%$purpay%'";
+         $run_query = mysqli_query($con, $query);
+         if($count = mysqli_num_rows($run_query) > 0){
+           echo "
+           
+      
+            <h2> PURCHASING PAYMENTS</h2>
+            <div class='table'>
+            <table class='table'>
+            <tr>
+            <th>product</th>
+            <th>quantity</th>
+            <th>Total</th>
+            <th>Supplier    Name</th>
+            <th> Date</th>
+            <th> Time</th>
+            <th> Merchant</th>
+            </tr>
+         ";
+         if($run_query){
+           while($rows = mysqli_fetch_array($run_query)){
+                $pname = $rows['name'];
+                $sname = $rows['sname'];
+                $fname = $rows['fname'];
+                $lname = $rows['lname'];
+                $tdate = $rows['date'];
+                $ntime = $rows['time'];
+                $quantity = $rows['quantity'];
+                $price = $rows['unitary_price'];
+                $total = $rows['total'];
+                $purId = $rows['purch_ord_det_id'];
+                $tot = $tot + $total;
+                echo "
+                <tr>
+                 <td>$pname</td>
+                 <td>$quantity</td>
+                 <td>$total</td>
+                 <td>$sname</td>
+                 <td>$tdate</td>
+                 <td>$ntime</td>
+                 <td>$fname $lname</td>
+                 </tr>
+                
+                
+                ";
+       
+           }
+           echo " </table></div><br>
+           <h2>TOTAL: $tot FRW</h2>
+       
+           ";
+         }
+       
+       }
+         }
+
+
+
+         if(isset($_POST['purDate'])){
+          $purdate = $_POST['purdate'];
+          $tot = 0;
+           $query = "SELECT *, products.name, supplier.name AS sname, fname, lname FROM purch_order_details JOIN products ON purch_order_details.p_o_number = products.product_id JOIN supplier ON purch_order_details.supplier_id = supplier.supplier_id JOIN users ON purch_order_details.merchant_id = users.user_id WHERE  purch_order_details.status = 'confirmed' AND purch_order_details.date LIKE '%$purdate%'";
+           $run_query = mysqli_query($con, $query);
+           if($count = mysqli_num_rows($run_query) > 0){
+             echo "
+             
+        
+              <h2> PURCHASING PAYMENTS</h2>
+              <div class='table'>
+              <table class='table'>
+              <tr>
+              <th>product</th>
+              <th>quantity</th>
+              <th>Total</th>
+              <th>Supplier    Name</th>
+              <th> Date</th>
+              <th> Time</th>
+              <th> Merchant</th>
+              </tr>
+           ";
+           if($run_query){
+             while($rows = mysqli_fetch_array($run_query)){
+                  $pname = $rows['name'];
+                  $sname = $rows['sname'];
+                  $fname = $rows['fname'];
+                  $lname = $rows['lname'];
+                  $tdate = $rows['date'];
+                  $ntime = $rows['time'];
+                  $quantity = $rows['quantity'];
+                  $price = $rows['unitary_price'];
+                  $total = $rows['total'];
+                  $purId = $rows['purch_ord_det_id'];
+                  $tot = $tot + $total;
+                  echo "
+                  <tr>
+                   <td>$pname</td>
+                   <td>$quantity</td>
+                   <td>$total</td>
+                   <td>$sname</td>
+                   <td>$tdate</td>
+                   <td>$ntime</td>
+                   <td>$fname $lname</td>
+                   </tr>
+                  
+                  
+                  ";
+         
+             }
+             echo " </table></div><br>
+             <h2>TOTAL: $tot FRW</h2>
+         
+             ";
+           }
+         
+         }
+           }
+
 
 
 

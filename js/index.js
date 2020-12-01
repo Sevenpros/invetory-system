@@ -450,6 +450,35 @@ $("body").delegate("#salesDate","input", function(event){
 })
 
 
+$("body").delegate("#purProduct","input", function(event){
+   event.preventDefault();
+   const purpay = $("#purProduct").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {purProduct:1, purpay:purpay},
+      success: data => {
+       $(".purView").html(data);
+    }
+   })
+})
+
+
+$("body").delegate("#purDate","input", function(event){
+   event.preventDefault();
+   const purdate = $("#purDate").val();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {purDate:1, purdate:purdate},
+      success: data => {
+       $(".purView").html(data);
+    }
+   })
+})
+
+
+
 
 $("body").delegate("#print-order","click",function(event){
    event.preventDefault();
@@ -500,6 +529,24 @@ $("body").delegate("#print-salesPay","click",function(event){
             printing.close();
       }
 })
+
+
+$("body").delegate("#print-purchasePay","click",function(event){
+   event.preventDefault();
+   var report=$(".purView").html();
+    if (confirm("Do you want to print?"))
+      {
+         
+            var values = report;
+         var printing = window.open('', '', 'left=0,top=0,width=550,height=400,toolbar=0,scrollbars=0,sta­?tus=0');
+            printing.document.write(values);
+            printing.document.close();
+            printing.focus();
+            printing.print();
+            printing.close();
+      }
+})
+
    $("#sup-view").click(function(event){
       event.preventDefault();
       $.ajax({
