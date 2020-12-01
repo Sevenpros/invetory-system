@@ -852,7 +852,12 @@ if(isset($_POST['saveCustomer'])){
   $phone = $_POST['phone'];
   $nation = $_POST['nation'];  
   $city = $_POST['city'];
-  $street = $_POST['street'];   
+  $street = $_POST['street'];  
+  if (empty($fname)||empty($lname)||empty($phone)||empty($nation)||empty($city)||empty($street)) {
+		echo "All Fields Must Be filled ";
+		exit();
+
+	} 
   $query = "INSERT INTO `customer` (`customer_id`, `fname`, `lname`, `phone`,`Nationality`,`City`,`Street`) VALUES (NULL, '$fname', '$lname', '$phone', '$nation', '$city', '$street')";    $run_query = mysqli_query($con, $query);
   if(!$run_query){
     echo "Some error occurred:".mysqli_error($con);
@@ -1378,6 +1383,11 @@ if(isset($_POST['addPurchase'])){
   $mid = $_POST['mid'];
   $ntime=date("h:i:sa");
   $tdate=date("y-m-d");
+  if (empty($product)||empty($supplier)||empty($price)||empty($quantity)||empty($total)) {
+		echo "All Fields Must Be filled ";
+		exit();
+
+	}
   $query = "INSERT INTO `purch_order_details` (`purch_ord_det_id`, `quantity`, `total`, `unitary_price`, `p_o_number`, `supplier_id`,`date`,`time`,`merchant_id`, `status`) VALUES (NULL, '$quantity', '$total', '$price', '$product', '$supplier', '$tdate', '$ntime', '$mid', 'ordered')"; 
   $run_query = mysqli_query($con, $query);
   if(!$run_query){
@@ -1398,6 +1408,11 @@ if(isset($_POST['saveProduct'])){
   $price = $_POST['price'];
   $max = $_POST['max'];  
   $photo = $_POST['photo'];
+  if (empty($pname)||empty($measure)||empty($category)||empty($cost)||empty($price)||empty($max)||empty($photo)) {
+		echo "All Fields Must Be filled ";
+		exit();
+
+	}
   $query = "INSERT INTO `products` (`product_id`, `name`, `measures`,`maximum`, `category`, `cost`, `u_price`, `image`) VALUES (NULL, '$pname', '$measure','$max', '$category', '$cost', '$price', '$photo')";   
    $run_query = mysqli_query($con, $query);
   if(!$run_query){
@@ -1416,6 +1431,11 @@ if(isset($_POST['saveSupplier'])){
   $nation = $_POST['snation'];  
   $city = $_POST['scity'];
   $street = $_POST['sstreet'];   
+  if (empty($sname)||empty($phone)||empty($nation)||empty($city)||empty($street)) {
+		echo "All Fields Must Be filled ";
+		exit();
+
+	}
   $query = "INSERT INTO `supplier` (`supplier_id`, `name`, `phone`,`nationality`,`city`,`street`) VALUES (NULL, '$sname', '$phone', '$nation', '$city', '$street')";    
   $run_query = mysqli_query($con, $query);
   if(!$run_query){
@@ -1436,6 +1456,11 @@ if(isset($_POST['saveSupplier'])){
     $total = $_POST['total'];
     $ntime=date("h:i:sa");
     $tdate=date("y-m-d");
+    if (empty($quantity)) {
+      echo "All Fields Must Be filled ";
+      exit();
+  
+    }
     $mes = "";
     $fquery = "SELECT * FROM products WHERE product_id = '$proId'";
     $run_fquery = mysqli_query($con, $fquery);
@@ -1480,6 +1505,11 @@ if(isset($_POST['saveSupplier'])){
     $mlname = $_POST['mlname'];
     $mphone = $_POST['mphone'];
     $meamil = $_POST['memail'];    
+    if (empty($mfname)||empty($mlname)||empty($mphone)||empty($meamil)) {
+      echo "All Fields Must Be filled ";
+      exit();
+  
+    }
     $query = "INSERT INTO `merchant` (`merchant_id`, `fname`, `lname`, `email`, `phone`) VALUES (NULL, '$mfname', '$mlname', '$meamil', '$mphone')";    $run_query = mysqli_query($con, $query);
     if(!$run_query){
       echo "Some error occurred:".mysqli_error($con);
