@@ -1,9 +1,12 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/signup.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+
     <title>admin/home</title>
 </head>
 <body>
@@ -30,6 +33,7 @@
                 <li id="order"><a href="#">ORDERING</a></li>
                 <li id="purchase"><a href="#">PURCHASE</a></li>
                 <li id="payments"><a href="#">PAYMENTS</a></li>
+                <li id="store"><a href="#">STORE CONTROL</a></li>
             </ul>
         </div>
         <div class="main-body">
@@ -46,7 +50,7 @@
                         <form>
                             <input class="input" id="fname" type="text" placeholder="First Name">
                             <input class="input" id="lname" type="text" placeholder="Last Name">
-                            <input class="input" id="phone" type="text" placeholder="Phone Number">
+                            <input class="input" id="cphone" type="text" placeholder="Phone Number">
                             <input class="input" id="nation" type="text" placeholder="Nationality">
                             <input class="input" id="city" type="text" placeholder="City">
                             <input class="input" id="street" type="text" placeholder="Street"><br>
@@ -116,8 +120,10 @@
                         <form>
                             <input class="input" id="pname" type="text" placeholder="Product Name">
                             <input class="input" id="measure" type="text" placeholder="Measures">
+                            <input class="input" id="max" type="text" placeholder="Maximum Measures">
                             <input class="input" id="cost" type="text" placeholder="Cost">
                             <input class="input" id="uprice" type="text" placeholder="Unitary Price">
+                            <input class="input" id="photo" type="file" placeholder="Enter the image file">
                             <select class="select" id="category">
                                 <option>Fluid</option>
                                 <option>Flour</option>
@@ -149,6 +155,7 @@
                             </select><br>
                             <input class="input" id="pur_quantity" type="text" placeholder="Quantity">
                             <input class="input" id="pur_price" type="text" placeholder="Price">
+                            <input type="hidden" id="userid" value="<?php echo $_SESSION['uid'] ?>">
                             <select class="select" id="pur_supplier">
                                
                             </select><br>
@@ -175,8 +182,37 @@
                 </div>
                 <div class="product-footer"></div>
             </div>
+            
 
+            <div class="store">
+                
+            <div class="body">
+                    
+              <div class="store-table-view">
+                
 
+                    
+                       
+                    </div>
+                    
+                   
+                </div>
+                <div class="store-footer"></div>
+            </div>
+            <div class="payments">
+            <div class="customer-header">
+                    <div class="cust-heads view">HOME VIEW</div>
+                    <div class="cust-heads add" id="sale_pay">SALES PAYMENTS</div>
+                    <div class="cust-heads cust" id="pur_pay">PURCHASE PAYMETNS</div>
+                </div>
+                <div class="body">
+                        
+                  <div class="payments-table-view">
+                          
+                  </div>
+                    </div>
+                    <div class="payements-footer"></div>
+                </div>
         </div>
         
     </main>
@@ -196,6 +232,7 @@
         </div>
     </footer>
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/divjs.js"></script>
     <script src="../../js/index.js"></script>
 </body>
 </html>

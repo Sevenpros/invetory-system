@@ -17,6 +17,7 @@ input:focus{
 .log-div{
     width: 30%;
 }
+
 .list-menu{
     width: 90%;
     text-align: right;
@@ -215,17 +216,23 @@ input:focus{
 .purchase{
     display:none;
 }
+.store{
+    display:none;
+}
+.payments{
+    display: none;
+}
 .purchase-form{
     display: flex;
 }
 .pur-form{
-    width: 60%;
+    width: 50%;
 }
 
+
 .pur-details{
-    width: 40%;
-    min-height: 400px;
-    border: 1px solid black;
+    width: 50%;
+    min-height: 50px;
     padding: 1%;
     text-align: center;
 }
@@ -256,12 +263,12 @@ input:focus{
 }
 .pur-table th {
     border: none;
-    padding: 0;
+    padding: 3px;
 
 }
 .pur-table td {
     border: none;
-    padding: 0;
+    padding: 3px;
 
 }
 .customer-header{
@@ -306,6 +313,14 @@ input:focus{
     border: 1px solid rgb(94, 93, 93);
     border-radius: 7px;
 }
+.search input{
+    width: 20%;
+    padding: 1%;
+    margin: 1%;
+    border: 1px solid rgb(94, 93, 93);
+    border-radius: 7px;
+}
+
 .select{
     width: 53%;
     padding: 1.2%;
