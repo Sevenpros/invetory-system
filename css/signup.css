@@ -353,6 +353,21 @@ input:focus{
 .pro-display{
     min-height: 400px;
 }
+.service-display{
+    min-height: 400px;
+    padding: 5%;
+    display: flex;
+}
+.service-div{
+    width: 30%;
+    color: white;
+    font-weight: bolder;
+    padding: 3%;
+    text-align: center;
+    background: rgb(194, 11, 51);
+    height: 100px;
+    margin: 2%;
+}
 .product-row{
     display: flex;
     margin:0 2%;

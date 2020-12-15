@@ -6,10 +6,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/signup.css">
-    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/signup.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
 
-    <title>customer</title>
+    <title>service</title>
 </head>
 <body>
     <header>
@@ -19,9 +19,8 @@
             </div>
             
             <div class="list-menu">
-                <a href="index.html">HOME</a>
-                <a href="../service.php">SERVICE</a>
-                <a href="../signup.html">LOGOUT</a>
+                <a href="signup.html">HOME</a>
+                <a href="#">SERVICE</a>
             </div>
         </div>
     </header>
@@ -34,9 +33,11 @@
                         Which aims at inspiring and helping you to live a healthy nutrition and lifestyle
                     </p>
                 </div>
-                 <div class="pro-display">
-                
-                    
+                 <div class="service-display">
+                   <div class='service-div'> NUTRITION ASSESSMENT AND DIAGNOSIS</div>
+                   <div class='service-div'> NUTRITION INTERVENTION AND MONITORING </div>
+                   <div class='service-div'> CONSULTATION DOCUMENTS </div>
+
                 </div>
                 
             </div>
@@ -59,30 +60,7 @@
         </div>
     </footer>
      
-    <div id="orderModal" class="modal order-modal">
-
-        <!-- Modal content -->
-        <div class="modal-content content-comment">
-          <span class="close">&times;</span>
-        <section>
-            
-            <form class="modal-form">
-                <label class="labels">Product name</label><br>
-                <input class="input" id="proname" type="text" disabled placeholder="Product Name"><br>
-                <label class="labels">Price</label><br>
-                <input class="input" id="price" type="text" disabled placeholder="Unitary Price"><br>
-                <label class="labels">Quantity</label><br>
-                <input class="inputs" id="quantity" type="text" focus placeholder="Quantity"><br>
-                <label class="labels">Total</label><br>
-                <input type="hidden" id="pid">
-                <input type="hidden" id="uid" value= " <?php echo $_SESSION['uid'];  ?>">
-                <input class="input" id="total" type="text" disabled  placeholder="Total" >
-                <br>
-                <button class="save-btn" id="confirm-order">CONFIRM</button>
-            </form>
-        </section> 
-        </div>  
-      </div>
+   
 
 
     <script type="text/javascript" src="../../js/jquery.min.js"></script>

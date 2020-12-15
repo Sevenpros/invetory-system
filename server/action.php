@@ -1482,7 +1482,7 @@ if(isset($_POST['saveSupplier'])){
       exit;
     }
     $updated = $pro_quantity - $quantity;
-    $query = "INSERT INTO `cust_ordering` (`cust_order_id`, `date`, `time`, `quantity`, `u_price`, `total`, `customer_id`, `product_id`, `status`) VALUES (NULL, '$tdate', '$ntime', '$quantity', '$uprice', '$total', '$cid', '$proId', '$ordered')";
+    $query = "INSERT INTO `cust_ordering` (`cust_order_id`, `date`, `time`, `quantity`, `u_price`, `total`, `customer_id`, `product_id`, `status`) VALUES (NULL, '$tdate', '$ntime', '$quantity', '$uprice', '$total', '$cid', '$proId', 'ordered')";
     $squery = "UPDATE `products` SET `measures` = '$updated' WHERE `products`.`product_id` = $proId";
     $run_squery = mysqli_query($con, $squery);
     if(!$run_squery){
