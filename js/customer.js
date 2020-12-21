@@ -46,8 +46,22 @@ $("body").delegate(".pro-order","click",function(event){
       $("#total").val(total);
   })
 
+  const addToCart = (c) => {
+    $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {viewCart:1,c:c},
+      success: function(data){
+        $(".cart-form").html(data);
+      }
+  })
+}
+  
+
+
   $("#confirm-order").click(function(event){
     event.preventDefault();
+    
     const cid = $("#uid").val();
     const proId = $("#pid").val();
     const uprice = $("#price").val();
@@ -59,10 +73,44 @@ $("body").delegate(".pro-order","click",function(event){
       data: {placeOrder:1, cid:cid,proId:proId,uprice:uprice,total:total,quantity:quantity},
       success: function(data){
         alert(data);
+        addToCart(cid);
+
       }
     })
-
-
   })
+    $("body").delegate("#remove_order","click",function(event) {
+      event.preventDefault();
+      const coid = $(this).attr("coid");
+      const cid = $("#uid").val();
+
+      $.ajax({
+         url: "../../server/action.php",
+         method: "POST",
+         data: {removeOrder:1, coid:coid},
+         success: data => {
+            alert(data);
+            addToCart(cid);
+         }
+      })
+     
+  })
+
+
+  $("body").delegate("#confirm_cart","click",function(event) {
+    event.preventDefault();
+    const cid = $("#uid").val();
+
+    $.ajax({
+       url: "../../server/action.php",
+       method: "POST",
+       data: {confirmCart:1, cid:cid},
+       success: data => {
+          alert(data);
+          addToCart(cid);
+       }
+    })
+   
+})
+  
 })
 

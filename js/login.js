@@ -1,15 +1,26 @@
 const login = document.querySelector('#login');
 const signup = document.querySelector('#signup');
+const recover = document.querySelector('#recover');
 const loginForm = document.querySelector('.login-form');
 const signupForm = document.querySelector('.signup-form');
+const recoverForm = document.querySelector('.recover-form');
 
 signup.onclick = () => {
     loginForm.style.display = 'none';
+    recoverForm.style.display = 'none';
     signupForm.style.display = 'block';
 }
 login.onclick = () => {
     loginForm.style.display = 'block';
     signupForm.style.display = 'none';
+    recoverForm.style.display = 'none';
+
+}
+recover.onclick = () => {
+   loginForm.style.display = 'none';
+   signupForm.style.display = 'none';
+   recoverForm.style.display = 'block';
+
 }
 $(document).ready(function(){
     $("#loginBtn").click(function(event){
@@ -58,6 +69,22 @@ $(document).ready(function(){
              })
         }
        
+     })
+
+     $("#submit").click( event => {
+        event.preventDefault();
+         const phone = $("#recover_pass").val();
+         $.ajax({
+            url: "../server/login.php",
+            method: 'POST',
+            data: {recover:1,phone:phone},
+            success: data => {
+               alert(data);
+               recoverForm.style.display= 'none';
+               loginForm.style.display = 'block';
+            }
+            
+         })
      })
 
 })

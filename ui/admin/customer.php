@@ -64,9 +64,9 @@
         <!-- Modal content -->
         <div class="modal-content content-comment">
           <span class="close">&times;</span>
-        <section>
-            
-            <form class="modal-form">
+        <section class="ordering-form">
+            <div class="o-form">
+               <form class="modal-form">
                 <label class="labels">Product name</label><br>
                 <input class="input" id="proname" type="text" disabled placeholder="Product Name"><br>
                 <label class="labels">Price</label><br>
@@ -78,8 +78,10 @@
                 <input type="hidden" id="uid" value= " <?php echo $_SESSION['uid'];  ?>">
                 <input class="input" id="total" type="text" disabled  placeholder="Total" >
                 <br>
-                <button class="save-btn" id="confirm-order">CONFIRM</button>
-            </form>
+                <button class="save-btn big-btn" id="confirm-order">Add To Cart</button>
+              </form>
+           </div>
+           <div class='cart-form'></div>
         </section> 
         </div>  
       </div>

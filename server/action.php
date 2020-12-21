@@ -768,7 +768,7 @@ if(isset($_POST['storeControl'])){
     echo "
     
     <div class='progress'>
-    <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar'
+    <div class='progress-bar progress-bar-warning progress-bar-striped active' role='progressbar'
       aria-valuenow='$perc' aria-valuemin='0' aria-valuemax='100' style='width:$perc%'>
           $perc % $pname (success)
       </div>
@@ -844,7 +844,15 @@ if(isset($_POST['confirmOrder'])){
   else echo mysqli_error($con);
 }
 
-
+if(isset($_POST['confirmCart'])){
+  $cid = $_POST['cid'];
+  $query = "UPDATE cust_ordering SET cust_ordering.status = 'ordered' WHERE cust_ordering.customer_id = '$cid' AND cust_ordering.status = 'carted'";
+  $run_query = mysqli_query($con, $query);
+  if($run_query){
+    echo " order confirmed";
+  }
+  else echo mysqli_error($con);
+}
 
 if(isset($_POST['saveCustomer'])){
   $fname = $_POST['fname'];
@@ -919,6 +927,56 @@ if(isset($_POST['viewPurchase'])){
 }
   }
    
+
+  if(isset($_POST['viewCart'])){
+     $c= $_POST['c'];
+    $query = "SELECT *, products.name, users.fname, users.lname  FROM cust_ordering JOIN products ON cust_ordering.product_id = products.product_id JOIN users ON cust_ordering.customer_id = users.user_id   WHERE cust_ordering.status = 'carted' AND cust_ordering.customer_id ='$c'";
+    $run_query = mysqli_query($con, $query);
+    if($count = mysqli_num_rows($run_query) > 0){
+      echo "
+      <h2> ORDER DETAILS</h2>
+       <div class='pur-table'>
+       <table>
+       <tr>
+       <th>product</th>
+       <th>quantity</th>
+       <th>U price</th>
+       <th>Total</th>
+       <th>Action</th>
+       </tr>
+    ";
+    if($run_query){
+      while($rows = mysqli_fetch_array($run_query)){
+           $pname = $rows['name'];
+           $fname = $rows['fname'];
+           $lname = $rows['lname'];
+           $quantity = $rows['quantity'];
+           $price = $rows['u_price'];
+           $total = $rows['total'];
+           $coid = $rows['cust_order_id'];
+           echo "
+           <tr>
+            <td>$pname</td>
+            <td>$quantity</td>
+            <td>$price</td>
+            <td>$total</td>
+            <td><a href='#' id='remove_order' name'$pname'  coid='$coid'>Remove</a></td>
+            </tr>
+           
+           
+           ";
+  
+      }
+      echo " </table></div><br>
+      <button class='save-btn big-btn' id='confirm_cart'>Place Order</button>
+  
+      ";
+    }
+  
+  }
+    }
+     
+
 
   if(isset($_POST['Purchase'])){
  
@@ -1356,6 +1414,18 @@ if(isset($_POST['removePurchase'])){
 }
 
 
+if(isset($_POST['removeOrder'])){
+  $coid = $_POST['coid'];
+  $query = "DELETE FROM cust_ordering WHERE cust_order_id = '$coid'";
+  $run_query = mysqli_query($con, $query);
+  if($run_query){
+    echo "Item(s) Successfuly removed";
+  }
+  else{
+    echo mysqli_error($con);
+  }
+}
+
 if(isset($_POST['confirmPurchase'])){
   $query = "UPDATE `purch_order_details` SET `status` = 'confirmed' WHERE status ='ordered'";
  // $squery = "UPDATE `products` SET `measures` = '$updated' WHERE `products`.`product_id` = $proId";
@@ -1387,7 +1457,21 @@ if(isset($_POST['addPurchase'])){
 		echo "All Fields Must Be filled ";
 		exit();
 
-	}
+  }
+  $fquery = "SELECT * FROM products WHERE products.product_id = '$product'";
+  $run_fquery = mysqli_query($con, $fquery);
+  if(!$run_fquery){
+    echo mysqli_error($con);
+  }else{
+    $row = mysqli_fetch_array($run_fquery);
+    $mes = $row['measures'];
+    $updatedMes = $quantity + $mes;
+    $squery ="UPDATE `products` SET `measures` = '$updatedMes' WHERE `products`.`product_id` = $product";
+    $run_squery = mysqli_query($con, $squery);
+    if(!$run_squery){
+      echo mysqli_error($con);
+    }
+  }
   $query = "INSERT INTO `purch_order_details` (`purch_ord_det_id`, `quantity`, `total`, `unitary_price`, `p_o_number`, `supplier_id`,`date`,`time`,`merchant_id`, `status`) VALUES (NULL, '$quantity', '$total', '$price', '$product', '$supplier', '$tdate', '$ntime', '$mid', 'ordered')"; 
   $run_query = mysqli_query($con, $query);
   if(!$run_query){
@@ -1482,7 +1566,7 @@ if(isset($_POST['saveSupplier'])){
       exit;
     }
     $updated = $pro_quantity - $quantity;
-    $query = "INSERT INTO `cust_ordering` (`cust_order_id`, `date`, `time`, `quantity`, `u_price`, `total`, `customer_id`, `product_id`, `status`) VALUES (NULL, '$tdate', '$ntime', '$quantity', '$uprice', '$total', '$cid', '$proId', 'ordered')";
+    $query = "INSERT INTO `cust_ordering` (`cust_order_id`, `date`, `time`, `quantity`, `u_price`, `total`, `customer_id`, `product_id`, `status`) VALUES (NULL, '$tdate', '$ntime', '$quantity', '$uprice', '$total', '$cid', '$proId', 'carted')";
     $squery = "UPDATE `products` SET `measures` = '$updated' WHERE `products`.`product_id` = $proId";
     $run_squery = mysqli_query($con, $squery);
     if(!$run_squery){

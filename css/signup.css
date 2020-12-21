@@ -87,6 +87,7 @@ input:focus{
     text-decoration: none;
     
 }
+
 .order-btn:hover{
     color: green;
     text-decoration: underline;
@@ -109,6 +110,12 @@ input:focus{
     border-radius: 3%;
     border: 1px solid rgb(66, 64, 65);
     padding: 3%;
+}
+.recover-form{
+    border-radius: 3%;
+    border: 1px solid rgb(66, 64, 65);
+    padding: 3%;
+    display:none;
 }
 .signup-form{
     display:none;
@@ -429,7 +436,7 @@ input:focus{
     margin: auto;
     padding: 20px;
     border: 1px solid rgba(0, 85, 124, 0.452);
-    width: 50%;
+    width: 60%;
     margin-bottom:5%;
     border-radius:10px;
 
@@ -449,11 +456,22 @@ input:focus{
     cursor: pointer;
   }
   .modal-form input{
-    width: 75%;
-    padding: 2%;
+    width: 90%;
+    padding: 1.5%;
     margin: 2%;
     border: 1px solid rgb(94, 93, 93);
     border-radius: 7px;
+}
+.o-form{
+    width: 50%;
+  
+}
+.ordering-form{
+    display: flex
+
+}
+.cart-form{
+    width: 50%;
 }
 .labels{
     margin-left: 20px;

@@ -25,6 +25,28 @@ session_start();
     
  }
 
+
+ if(isset($_POST['recover'])){
+    $phone = $_POST['phone'];
+    $query = "SELECT * FROM users WHERE phone = '$phone'";
+    $run_query = mysqli_query($con,$query);
+    if($run_query){
+       $row = mysqli_fetch_array($run_query);
+       if($row){
+           $password = $row['password'];
+           echo 'Your password is : "'.$password.'"';
+         
+       }
+       else{
+           echo "Your account is not found";
+       }
+    }
+    
+   
+}
+
+
+
  if(isset($_POST['signUp'])){
      $fname = $_POST['fname'];
      $lname = $_POST['lname'];
