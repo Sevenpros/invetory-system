@@ -171,7 +171,11 @@
                 <div class="purchase-footer"></div>
             </div>
             <div class="orders">
-                
+            <div class='customer-header'>
+          <div class='cust-heads view' id='allOrders'>All Orders</div>
+          <div class='cust-heads add' id='confirmedOrders'>Confirmed Orders</div>
+          <div class='cust-heads cust' id='receivedOrders'>Received Orders</div>
+      </div><br>
                 <div class="body">
                     
                     <div class="order-table-view">
@@ -231,7 +235,30 @@
            Phone: +250 788 729 794
         </div>
     </footer>
+
+    <div class="modal fade" role="dialog" id="orderDetailsModal">
+                  <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">ORDERS DETAILS INFORMATION</h4>
+                      </div>
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-md-12" id="order_det_view">
+                            
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                 </div>
+
     <script type="text/javascript" src="../../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../js/divjs.js"></script>
     <script src="../../js/index.js"></script>
 </body>

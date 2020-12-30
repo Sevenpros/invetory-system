@@ -126,16 +126,18 @@
 }
 
 if(isset($_POST["displayOrder"])){
-  $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id";
+  $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id GROUP BY cust_ordering.customer_id";
   $run_query = mysqli_query($con, $query);
   echo "
+  
   <div class=' search'>
   <input type='text' placeholder='Search Order by Product' id='orderProduct'>
   <input type='text' placeholder='Search Order by Customer' id='orderCustomer'>
   <input type='date' placeholder='Search Order by Date' id='orderDate'>
   <button  class='save-btn' id='print-order'>PRINT</button></div>
   <div class='orderView'>
-  <h3>ORDERS INFORMATION</h3><br>
+      
+  <h3>ORDERS INFORMATION</h3>
 
   <div class='table'>
      <table class='table'>
@@ -147,7 +149,7 @@ if(isset($_POST["displayOrder"])){
       <th>Total</th>
       <th>Date</th>
       <th>Time</th>
-      <th>Action</th>
+      <th>Status</th>
 
      </tr>
 ";
@@ -172,7 +174,7 @@ if(isset($_POST["displayOrder"])){
                 <td>$total</td>
                 <td>$date</td>
                 <td>$time</td>
-                <td><a href='#' id='conf_order' oid='$oid' pname='$pname' name='$lname $fname' quantity='$quantity' total='$total'>Confirm</a></td>
+                <td>Recevied</td>
               </tr>
 
        ";}
@@ -187,6 +189,145 @@ if(isset($_POST["displayOrder"])){
           <td>$date</td>
           <td>$time</td>
           <td>Confirmed</td>
+        </tr>
+
+ ";
+       }
+  }
+  echo "</table> </div></div>";
+}
+
+
+
+if(isset($_POST["confirmedOrders"])){
+  $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id WHERE cust_ordering.status = 'confirmed' GROUP BY cust_ordering.customer_id";
+  $run_query = mysqli_query($con, $query);
+  echo "
+  
+  <div class=' search'>
+  <input type='text' placeholder='Search Order by Product' id='orderProduct'>
+  <input type='text' placeholder='Search Order by Customer' id='orderCustomer'>
+  <input type='date' placeholder='Search Order by Date' id='orderDate'>
+  <button  class='save-btn' id='print-order'>PRINT</button></div>
+  <div class='orderView'>
+      
+  <h3>ORDERS INFORMATION</h3>
+
+  <div class='table'>
+     <table class='table'>
+     <tr>
+      <th>Customer</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unitary Price</th>
+      <th>Total</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Status</th>
+
+     </tr>
+";
+  while($rows = mysqli_fetch_array($run_query)){
+      $fname = $rows['fname'];
+      $lname = $rows['lname'];
+      $pname = $rows['name'];
+      $date = $rows['date'];
+      $time = $rows['time'];
+      $status = $rows['status'];
+      $quantity = $rows['quantity'];
+      $total = $rows['total'];
+      $uprice = $rows['u_price'];
+      $oid = $rows['cust_order_id'];
+      if($status == 'confirmed'){
+      echo "
+              <tr>
+                <td>$fname $lname</td>
+                <td>$pname</td>
+                <td>$quantity</td>
+                <td>$uprice</td>
+                <td>$total</td>
+                <td>$date</td>
+                <td>$time</td>
+                <td>Confirmed</td>
+              </tr>
+
+       ";}
+       
+  }
+  echo "</table> </div></div>";
+}
+
+
+if(isset($_POST["receivedOrders"])){
+  $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id WHERE cust_ordering.status = 'ordered' GROUP BY cust_ordering.customer_id";
+  $run_query = mysqli_query($con, $query);
+  echo "
+  
+  <div class=' search'>
+  <input type='text' placeholder='Search Order by Product' id='orderProduct'>
+  <input type='text' placeholder='Search Order by Customer' id='orderCustomer'>
+  <input type='date' placeholder='Search Order by Date' id='orderDate'>
+  <button  class='save-btn' id='print-order'>PRINT</button></div>
+  <div class='orderView'>
+      
+  <h3>ORDERS INFORMATION</h3>
+
+  <div class='table'>
+     <table class='table'>
+     <tr>
+      <th>Customer</th>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unitary Price</th>
+      <th>Total</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Details</th>
+
+     </tr>
+";
+  while($rows = mysqli_fetch_array($run_query)){
+      $fname = $rows['fname'];
+      $lname = $rows['lname'];
+      $pname = $rows['name'];
+      $date = $rows['date'];
+      $time = $rows['time'];
+      $status = $rows['status'];
+      $quantity = $rows['quantity'];
+      $total = $rows['total'];
+      $uprice = $rows['u_price'];
+      $cid = $rows['user_id'];
+      $oid = $rows['cust_order_id'];
+      if($status == 'ordered'){
+      echo "
+              <tr>
+                <td>$fname $lname</td>
+                <td>$pname</td>
+                <td>$quantity</td>
+                <td>$uprice</td>
+                <td>$total</td>
+                <td>$date</td>
+                <td>$time</td>
+                <td ><a  href='#' id='orderDet' class='btn btn-default btn-xs ' cid='$cid' data-toggle='modal' data-target='#orderDetailsModal'  data-toggle='tooltip' title='Click to view details'>
+                <span class='glyphicon glyphicon-eye-open'></span>
+                </a>
+                 
+                </td>
+                </tr>
+
+       ";}
+       if($status == 'confirmed'){
+        echo "
+        <tr>
+          <td>$fname $lname</td>
+          <td>$pname</td>
+          <td>$quantity</td>
+          <td>$uprice</td>
+          <td>$total</td>
+          <td>$date</td>
+          <td>$time</td>
+          <td>Confirmed</td>
+          
         </tr>
 
  ";
@@ -835,8 +976,8 @@ if(isset($_POST["displayProduct"])){
 
 
 if(isset($_POST['confirmOrder'])){
-  $oid = $_POST['oid'];
-  $query = "UPDATE cust_ordering SET cust_ordering.status = 'confirmed' WHERE cust_ordering.cust_order_id = '$oid'";
+  $cid = $_POST['cid'];
+  $query = "UPDATE cust_ordering SET cust_ordering.status = 'confirmed' WHERE cust_ordering.customer_id = '$cid' AND cust_ordering.status='ordered'";
   $run_query = mysqli_query($con, $query);
   if($run_query){
     echo " order confirmed";
@@ -976,6 +1117,53 @@ if(isset($_POST['viewPurchase'])){
   }
     }
      
+  
+    if(isset($_POST['orderDetails'])){
+      $cid= $_POST['cid'];
+     $query = "SELECT *, products.name, users.fname, users.lname  FROM cust_ordering JOIN products ON cust_ordering.product_id = products.product_id JOIN users ON cust_ordering.customer_id = users.user_id   WHERE cust_ordering.status = 'ordered' AND cust_ordering.customer_id ='$cid'";
+     $run_query = mysqli_query($con, $query);
+     if($count = mysqli_num_rows($run_query) > 0){
+       echo "
+       <h2> ORDER DETAILS</h2>
+        <div class='pur-table'>
+        <table>
+        <tr>
+        <th>product</th>
+        <th>quantity</th>
+        <th>U price</th>
+        <th>Total</th>
+        </tr>
+     ";
+     if($run_query){
+       while($rows = mysqli_fetch_array($run_query)){
+            $pname = $rows['name'];
+            $fname = $rows['fname'];
+            $lname = $rows['lname'];
+            $quantity = $rows['quantity'];
+            $price = $rows['u_price'];
+            $total = $rows['total'];
+            $coid = $rows['cust_order_id'];
+            echo "
+            <tr>
+             <td>$pname</td>
+             <td>$quantity</td>
+             <td>$price</td>
+             <td>$total</td>
+             </tr>
+            
+            
+            ";
+   
+       }
+       echo " </table></div><br>
+       <button class='save-btn big-btn' cid='$cid' cname='$fname $lname' id='conf_order'> Confirm </button>
+   
+       ";
+     }
+   
+   }
+     }
+
 
 
   if(isset($_POST['Purchase'])){

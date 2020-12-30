@@ -380,14 +380,14 @@ input:focus{
     margin:0 2%;
 }
 .pro-element{
-    width: 140px;
-    height: 170px;
+    min-width: 140px;
+    min-height: 170px;
     border: 1px solid rgb(194, 11, 51);
     margin-left: 5px;
 
 }
 .pro-desc{
-    height: 30px;
+    min-height: 30px;
     border-bottom: 1px solid rgb(194, 11, 51);
     text-align:center;
     color: rgb(194, 11, 51);

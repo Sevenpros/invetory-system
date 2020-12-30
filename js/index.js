@@ -172,7 +172,7 @@ const orders = () => {
       method: "POST",
       data: {displayOrder:1},
       success: function(data){
-         $(".orders").html(data);
+         $(".order-table-view").html(data);
       }
    })
 }
@@ -300,20 +300,17 @@ xhr.send(body);
 
    $("body").delegate("#conf_order", "click", function(event) {
       event.preventDefault();
-      const oid = $(this).attr("oid");
-      const pname = $(this).attr("pname");
-      const cname = $(this).attr("name");
-      const quantity = $(this).attr("quantity");
-      const total = $(this).attr("total");
+      const cid = $(this).attr("cid");
+      const cname = $(this).attr("cname");
 
       const number = 250782718860;
       $.ajax({
          url: "../../server/action.php",
          method: "POST",
-         data: {confirmOrder:1,oid:oid},
+         data: {confirmOrder:1,cid:cid},
          success: data => {
               alert(data)
-              const sms = "Dear "+cname+" we are pleased to inform you that your order of "+quantity+" "+pname+" have been confirmed. amount of "+total+" Frw is to be paid on product delivery";
+              const sms = "Dear "+cname+" we are pleased to inform you that your order have been confirmed. Thank you";
               smsNotification(number,sms);
               orders();
      
@@ -578,6 +575,53 @@ $("body").delegate("#print-purchasePay","click",function(event){
       })
      
   })
+   $("body").delegate("#confirmedOrders","click",function(event) {
+      event.preventDefault();
+      $.ajax({
+         url: "../../server/action.php",
+         method: "POST",
+         data: {confirmedOrders:1},
+         success: data => {
+            $(".order-table-view").html(data);
+         }
+      })
+     
+  })
+
+
+  $("body").delegate("#receivedOrders","click",function(event) {
+   event.preventDefault();
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {receivedOrders:1},
+      success: data => {
+         $(".order-table-view").html(data);
+      }
+   })
+  
+})
+
+
+$("body").delegate("#allOrders","click",function(event) {
+   event.preventDefault();
+     orders();
+  
+})
+$('body').delegate('#orderDet','click',function(event) {
+   const cid = $(this).attr('cid');
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {orderDetails:1,cid:cid},
+      success: data => {
+         $("#order_det_view").html(data);
+      }
+  })
+  
+})
+
+
  $("body").delegate("#confirm_pur","click", event => {
     event.preventDefault();
     $.ajax({
