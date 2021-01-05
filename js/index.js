@@ -355,6 +355,66 @@ $("body").delegate("#orderProduct","input", function(event){
     }
    })
 })
+
+
+$("body").delegate("#deleteCustomer","click", function(event){
+   event.preventDefault();
+   const cust = $(this).attr('cust');
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {deleteCustomer:1, cust:cust},
+      success: data => {
+       alert(data);
+    }
+   })
+})
+
+
+$("body").delegate("#deleteProduct","click", function(event){
+   event.preventDefault();
+   const pro = $(this).attr('pro');
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {deleteProduct:1, pro:pro},
+      success: data => {
+       alert(data);
+    }
+   })
+})
+
+
+$("body").delegate("#deleteSupplier","click", function(event){
+   event.preventDefault();
+   const sup = $(this).attr('supp');
+   alert(sup);
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {deleteSupplier:1, sup:sup},
+      success: data => {
+       alert(data);
+    }
+   })
+})
+
+
+
+$("body").delegate("#deleteMerchant","click", function(event){
+   event.preventDefault();
+   const mer = $(this).attr('mer');
+   alert(mer);
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {deleteMerchant:1, mer:mer},
+      success: data => {
+       alert(data);
+    }
+   })
+})
+
 $("body").delegate("#orderCustomer","input", function(event){
    event.preventDefault();
    const oCust = $("#orderCustomer").val();
@@ -614,6 +674,21 @@ $('body').delegate('#orderDet','click',function(event) {
       url: "../../server/action.php",
       method: "POST",
       data: {orderDetails:1,cid:cid},
+      success: data => {
+         $("#order_det_view").html(data);
+      }
+  })
+  
+})
+
+
+$('body').delegate('#conforderDet','click',function(event) {
+   const cid = $(this).attr('cid');
+   alert(cid);
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {confirmedOrderDetails:1,cid:cid},
       success: data => {
          $("#order_det_view").html(data);
       }

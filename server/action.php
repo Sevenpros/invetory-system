@@ -16,6 +16,7 @@
           <th>Nationality</th>
           <th>City</th>
           <th>Street</th>
+          <th>Action</th>
 
          </tr>
     ";
@@ -36,13 +37,56 @@
                     <td>$nation</td>
                     <td>$city</td>
                     <td>$street</td>
-                    
+                    <td><a href='#' cust='$cust' id='deleteCustomer'>Delete</a></td>
+
                   </tr>
 
 			     ";
       }
       echo "</table></div>";
   }
+
+  if(isset($_POST["deleteCustomer"])){
+    $cust = $_POST['cust'];
+    $query = "DELETE FROM customer WHERE customer.customer_id = '$cust'";
+    $run_query = mysqli_query($con, $query);
+    if($run_query){
+       echo "Customer Deleted";
+    }
+    else echo mysqli_error($con);
+  }
+
+  if(isset($_POST["deleteProduct"])){
+    $pro = $_POST['pro'];
+    $query = "DELETE FROM products WHERE products.product_id = '$pro'";
+    $run_query = mysqli_query($con, $query);
+    if($run_query){
+       echo "Product Deleted";
+    }
+    else echo mysqli_error($con);
+  }
+
+
+  if(isset($_POST["deleteSupplier"])){
+    $sup = $_POST['sup'];
+    $query = "DELETE FROM supplier WHERE supplier.supplier_id = '$sup'";
+    $run_query = mysqli_query($con, $query);
+    if($run_query){
+       echo "Supplier Deleted";
+    }
+    else echo mysqli_error($con);
+  }
+
+  if(isset($_POST["deleteMerchant"])){
+    $mer = $_POST['mer'];
+    $query = "DELETE FROM merchant WHERE merchant.merchant_id = '$mer'";
+    $run_query = mysqli_query($con, $query);
+    if($run_query){
+       echo "Merchant Deleted";
+    }
+    else echo mysqli_error($con);
+  }
+
 
   if(isset($_POST["searchCustomer"])){
     $cust = $_POST['cust'];
@@ -100,7 +144,8 @@
         <th>Last Name</th>
         <th>Phone</th>
         <th>Email</th>
-        
+        <th>Action</th>
+
 
        </tr>
   ";
@@ -117,7 +162,8 @@
                   <td>$lname</td>
                   <td>$phone</td>
                   <td>$email</td>
-                  
+                  <td><a href='#' id='deleteMerchant' mer='$merch'>Delete</a></td>
+
                 </tr>
 
          ";
@@ -224,12 +270,15 @@ if(isset($_POST["confirmedOrders"])){
       <th>Date</th>
       <th>Time</th>
       <th>Status</th>
+      <th>Details</th>
+     
 
      </tr>
 ";
   while($rows = mysqli_fetch_array($run_query)){
       $fname = $rows['fname'];
       $lname = $rows['lname'];
+      $cid = $rows['user_id'];
       $pname = $rows['name'];
       $date = $rows['date'];
       $time = $rows['time'];
@@ -249,6 +298,9 @@ if(isset($_POST["confirmedOrders"])){
                 <td>$date</td>
                 <td>$time</td>
                 <td>Confirmed</td>
+                <td ><a  href='#' id='conforderDet' class='btn btn-default btn-xs ' cid='$cid' data-toggle='modal' data-target='#orderDetailsModal'  data-toggle='tooltip' title='Click to view details'>
+                <span class='glyphicon glyphicon-eye-open'></span> </a> </td>
+
               </tr>
 
        ";}
@@ -309,10 +361,7 @@ if(isset($_POST["receivedOrders"])){
                 <td>$date</td>
                 <td>$time</td>
                 <td ><a  href='#' id='orderDet' class='btn btn-default btn-xs ' cid='$cid' data-toggle='modal' data-target='#orderDetailsModal'  data-toggle='tooltip' title='Click to view details'>
-                <span class='glyphicon glyphicon-eye-open'></span>
-                </a>
-                 
-                </td>
+                <span class='glyphicon glyphicon-eye-open'></span> </a> </td>
                 </tr>
 
        ";}
@@ -544,6 +593,7 @@ if(isset($_POST["supplier"])){
       <th>Nationality</th>
       <th>City</th>
       <th>Street</th>
+      <th>Action</th>
 
      </tr>
 ";
@@ -562,7 +612,8 @@ if(isset($_POST["supplier"])){
                 <td>$nation</td>
                 <td>$city</td>
                 <td>$street</td>
-                
+                <td><a href='#' id='deleteSupplier' supp='$sup'>Delete</a></td>
+
               </tr>
 
        ";
@@ -790,7 +841,8 @@ if(isset($_POST["product"])){
       <th>Category</th>
       <th>Unitary Cost</th>
       <th>Unitary Price</th>
-
+      <th>Action</th>
+  
      </tr>
 ";
   while($rows = mysqli_fetch_array($run_query)){
@@ -809,7 +861,7 @@ if(isset($_POST["product"])){
           <td>$category</td>
           <td>$cost FRW/Ltr </td>
           <td>$price FRW/Ltr</td>
-          
+          <td><a href='#' id='deleteProduct' pro='$pro'>Delete</a></td>
         </tr>
 
  ";}
@@ -822,7 +874,8 @@ if(isset($_POST["product"])){
     <td>$category</td>
     <td>$cost FRW/Kg </td>
     <td>$price FRW/kg</td>
-    
+    <td><a href='#' id='deleteProduct' pro='$pro'>Delete</a></td>
+ 
   </tr>
 
 ";
@@ -1156,6 +1209,8 @@ if(isset($_POST['viewPurchase'])){
    
        }
        echo " </table></div><br>
+       <h2>Customer: $fname $lname</h2>
+
        <button class='save-btn big-btn' cid='$cid' cname='$fname $lname' id='conf_order'> Confirm </button>
    
        ";
@@ -1164,6 +1219,52 @@ if(isset($_POST['viewPurchase'])){
    }
      }
 
+
+     if(isset($_POST['confirmedOrderDetails'])){
+      $cid= $_POST['cid'];
+     $query = "SELECT *, products.name, users.fname, users.lname  FROM cust_ordering JOIN products ON cust_ordering.product_id = products.product_id JOIN users ON cust_ordering.customer_id = users.user_id   WHERE cust_ordering.status = 'confirmed' AND cust_ordering.customer_id ='$cid'";
+     $run_query = mysqli_query($con, $query);
+     if($count = mysqli_num_rows($run_query) > 0){
+       echo "
+       <h2> ORDER DETAILS</h2>
+        <div class='pur-table'>
+        <table>
+        <tr>
+        <th>product</th>
+        <th>quantity</th>
+        <th>U price</th>
+        <th>Total</th>
+        </tr>
+     ";
+     if($run_query){
+       while($rows = mysqli_fetch_array($run_query)){
+            $pname = $rows['name'];
+            $fname = $rows['fname'];
+            $lname = $rows['lname'];
+            $quantity = $rows['quantity'];
+            $price = $rows['u_price'];
+            $total = $rows['total'];
+            $coid = $rows['cust_order_id'];
+            echo "
+            <tr>
+             <td>$pname</td>
+             <td>$quantity</td>
+             <td>$price</td>
+             <td>$total</td>
+             </tr>
+            
+            
+            ";
+   
+       }
+       echo " </table></div><br>
+       <h2>Customer: $fname $lname</h2>
+   
+       ";
+     }
+   
+   }
+     }
 
 
   if(isset($_POST['Purchase'])){
