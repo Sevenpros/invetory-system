@@ -357,8 +357,15 @@ input:focus{
 .pros{
     margin: 2%;
 }
+.progress{
+    color: yellow;
+}
 .pro-display{
     min-height: 400px;
+    padding: 3%;
+}
+#cartDetails:hover{
+    cursor: pointer;
 }
 .service-display{
     min-height: 400px;

@@ -244,6 +244,78 @@ if(isset($_POST["displayOrder"])){
 }
 
 
+if(isset($_POST["myCart"])){
+  $cid = $_POST['cid'];
+  $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id WHERE cust_ordering.customer_id = '$cid' GROUP BY cust_ordering.statuS";
+  $run_query = mysqli_query($con, $query);
+  echo "
+  
+  
+      
+  <h3>  MY ORDERS INFORMATION  </h3>
+
+  <div class='table'>
+     <table class='table'>
+     <tr >
+      
+      <th>Date</th>
+      <th>Time</th>
+      <th>Amount</th>
+      <th>Status</th>
+
+     </tr>
+";
+  while($rows = mysqli_fetch_array($run_query)){
+      $fname = $rows['fname'];
+      $lname = $rows['lname'];
+      $pname = $rows['name'];
+      $date = $rows['date'];
+      $time = $rows['time'];
+      $cid= $rows['customer_id'];
+      $status = $rows['status'];
+      $quantity = $rows['quantity'];
+      $total = $rows['total'];
+      $uprice = $rows['u_price'];
+      $oid = $rows['cust_order_id'];
+      if($status == 'ordered'){
+      echo "
+              <tr >
+
+                <td>$date</td>
+                <td>$time</td>
+                <td>$total Frw</td>
+                <td>Recevied</td>
+              </tr>
+
+       ";}
+       if($status == 'delivered'){
+        echo "
+                <tr >
+    
+                  <td>$date</td>
+                  <td>$time</td>
+                  <td>$total Frw</td>
+                  <td>Delivered</td>
+                </tr>
+    
+         ";}
+       if($status == 'confirmed'){
+        echo "
+        <tr data-toggle='tooltip' title='Click to view details' id='cartDetails' cid='$cid' data-toggle='modal' data-target='#cartDetailsModal'>
+        <td>$date</td>
+        <td>$time</td>
+        <td>$total Frw</td>
+          <td>Confirmed</td>
+        </tr>
+
+ ";
+       }
+  }
+
+  
+  echo "</table> </div></div>";
+}
+
 
 if(isset($_POST["confirmedOrders"])){
   $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id WHERE cust_ordering.status = 'confirmed' GROUP BY cust_ordering.customer_id";
@@ -699,6 +771,71 @@ echo "</table> </div>
 }
 
 
+if(isset($_POST['Profits'])){
+  $total = 0;
+  $query = "SELECT *, users.fname, users.lname, products.name, cust_ordering.quantity, cust_ordering.u_price, cust_ordering.total, cust_ordering.date,cust_ordering.time FROM cust_ordering JOIN users ON cust_ordering.customer_id = users.user_id JOIN products ON cust_ordering.product_id = products.product_id";
+  $run_query = mysqli_query($con, $query);
+
+  if($run_query){
+     echo "
+     <div class=' search'>
+     <input type='text' class='search' placeholder='Search payment by Product' id='salesProduct'>
+     <input type='date' class='search' placeholder='Search payment by Date' id='salesDate'>
+     <button  class='save-btn' id='print-salesPay'>PRINT</button>
+     <div class='salesView'>
+
+  <h2> PROFITS MADE</2><br><br>
+  <div class='table'>
+     <table class='table'>
+     <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>U cost</th>
+      <th>U price</th>
+      <th>Total Amount</th>
+      <th>Profits</th>
+
+
+     </tr>
+";
+while($rows = mysqli_fetch_array($run_query)){
+  $name = $rows['name'];
+  $ucost= $rows['cost'];
+  $uprice=$rows['u_price'];
+  $fname = $rows['fname'];
+  $lname = $rows['lname'];
+  $quantity = $rows['quantity'];
+  $amount = $rows['total'];
+  $date = $rows['date'];
+  $time = $rows['time'];
+  $profit = ($uprice - $ucost) * $quantity;
+  $total = $total + $profit;
+
+  echo "
+    <tr>
+       <td>$name</td>
+       <td>$quantity</td>
+       <td>$date</td>
+       <td>$time</td>
+       <td>$ucost</td>
+       <td>$uprice</td>
+       <td>$amount Frw</td>
+       <td>$profit Frw</td>
+    </tr>
+  
+  ";
+}
+echo "</table> </div> 
+ 
+ <h2> TOTAL PROFITS: $total FRW</h2>
+";
+  }
+}
+
+
+
 if(isset($_POST['salesProduct'])){
   $salepro = $_POST['salepro'];
   $total = 0;
@@ -959,15 +1096,51 @@ if(isset($_POST['storeControl'])){
     $pro = $quantity/$max;
     $perc = $pro * 100;
     }
-    echo "
+    if ($perc <= 25){
+      echo "
+    
+      <div class='progress'>
+      <div class='progress-bar progress-bar-danger progress-bar-striped active' role='progressbar'
+        aria-valuenow='$perc' aria-valuemin='0' aria-valuemax='100' style='width:$perc%'>
+            $perc % $pname 
+        </div>
+    </div>
+      ";
+    }
+    if( $perc > 25 && $perc <=50){
+      echo "
     
     <div class='progress'>
     <div class='progress-bar progress-bar-warning progress-bar-striped active' role='progressbar'
       aria-valuenow='$perc' aria-valuemin='0' aria-valuemax='100' style='width:$perc%'>
-          $perc % $pname (success)
+          $perc % $pname 
       </div>
   </div>
     ";
+    }
+    if ($perc > 50 && $perc <=75){
+      echo "
+    
+    <div class='progress'>
+    <div class='progress-bar progress-bar-primary progress-bar-striped active' role='progressbar'
+      aria-valuenow='$perc' aria-valuemin='0' aria-valuemax='100' style='width:$perc%'>
+          $perc % $pname 
+      </div>
+  </div>
+    ";
+    }
+
+    if ($perc > 75){
+      echo "
+    
+    <div class='progress'>
+    <div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar'
+      aria-valuenow='$perc' aria-valuemin='0' aria-valuemax='100' style='width:$perc%'>
+          $perc % $pname 
+      </div>
+  </div>
+    ";
+    }
 }
   }
 }
@@ -1047,7 +1220,15 @@ if(isset($_POST['confirmCart'])){
   }
   else echo mysqli_error($con);
 }
-
+if(isset($_POST['cartDetails'])){
+  $cid = $_POST['cid'];
+  $query = "UPDATE cust_ordering SET cust_ordering.status = 'delivered' WHERE cust_ordering.customer_id = '$cid' AND cust_ordering.status = 'confirmed'";
+  $run_query = mysqli_query($con, $query);
+  if($run_query){
+    echo " Done";
+  }
+  else echo mysqli_error($con);
+}
 if(isset($_POST['saveCustomer'])){
   $fname = $_POST['fname'];
   $lname = $_POST['lname'];
@@ -1179,7 +1360,7 @@ if(isset($_POST['viewPurchase'])){
        echo "
        <h2> ORDER DETAILS</h2>
         <div class='pur-table'>
-        <table>
+        <table border='collapse'>
         <tr>
         <th>product</th>
         <th>quantity</th>

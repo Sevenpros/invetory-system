@@ -205,9 +205,10 @@
             </div>
             <div class="payments">
             <div class="customer-header">
-                    <div class="cust-heads view">HOME VIEW</div>
                     <div class="cust-heads add" id="sale_pay">SALES PAYMENTS</div>
                     <div class="cust-heads cust" id="pur_pay">PURCHASE PAYMETNS</div>
+                    <div class="cust-heads view" id='profits'>PROFITS MADE</div>
+
                 </div>
                 <div class="body">
                         

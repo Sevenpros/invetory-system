@@ -16,7 +16,27 @@ $(document).ready(function(){
 const span = document.querySelector('.close');
 const orderBtn = document.querySelectorAll('.pro-order');
 
+$("#cust_products").click(event => {
+  event.preventDefault();
+  proDisplay();
+})
+const myCart = cid =>{
+  $.ajax({
+    url: "../../server/action.php",
+    method: "POST",
+    data: {myCart:1,cid:cid},
+    success: function(data){
+      $(".pro-display").html(data);
+    }
+  })
+}
 
+$("#mycart").click(event => {
+  event.preventDefault();
+  const cid = $("#uid").val();
+  myCart(cid);
+ 
+})
 
 $("body").delegate(".pro-order","click",function(event){
     event.preventDefault();
@@ -96,19 +116,41 @@ $("body").delegate(".pro-order","click",function(event){
   })
 
 
+
+  $("body").delegate("#cartDetails","click",function(event) {
+    event.preventDefault();
+    const cid = $(this).attr("cid");
+    if(confirm("Is your ordered products Delivered")){
+      $.ajax({
+        url: "../../server/action.php",
+        method: "POST",
+       data: {cartDetails:1, cid:cid},
+        success: data => {
+           alert(data);
+           myCart(cid);
+        }
+     })
+    }
+    
+   
+})
+
+
   $("body").delegate("#confirm_cart","click",function(event) {
     event.preventDefault();
     const cid = $("#uid").val();
-
-    $.ajax({
-       url: "../../server/action.php",
-       method: "POST",
-       data: {confirmCart:1, cid:cid},
-       success: data => {
-          alert(data);
-          addToCart(cid);
-       }
-    })
+    if(confirm("Do you want to place order? This action can not be reversed")){
+      $.ajax({
+        url: "../../server/action.php",
+        method: "POST",
+        data: {confirmCart:1, cid:cid},
+        success: data => {
+           alert(data);
+           addToCart(cid);
+        }
+     })
+    }
+    
    
 })
   

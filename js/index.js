@@ -197,6 +197,19 @@ document.querySelector("#sale_pay").onclick = () => {
       }
    })
 }
+
+
+document.querySelector("#profits").onclick = () => {
+   $.ajax({
+      url: "../../server/action.php",
+      method: "POST",
+      data: {Profits:1},
+      success: data => {
+         $(".payments-table-view").html(data);
+      }
+   })
+}
+
 document.querySelector("#pur_pay").onclick = () => {
    $.ajax({
       url: "../../server/action.php",
